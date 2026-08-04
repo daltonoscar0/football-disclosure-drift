@@ -271,6 +271,34 @@ def download(client: CompaniesHouseClient, entities: dict) -> dict:
     return manifest
 
 
+FILINGS_PER_CLUB = 3
+
+
+def fully_cached() -> bool:
+    """True when every expected filing is already on disk.
+
+    Requires a resolved entity for each club and FILINGS_PER_CLUB downloaded files
+    per club, so a partial cache still triggers a fetch rather than quietly
+    proceeding with a short dataset.
+    """
+    if not ENTITIES_PATH.exists() or not MANIFEST_PATH.exists():
+        return False
+    entities = json.loads(ENTITIES_PATH.read_text())
+    clubs = entities.get("clubs", {})
+    if sorted(clubs) != sorted(c["slug"] for c in CLUBS):
+        return False
+    if any(not entry.get("chosen") for entry in clubs.values()):
+        return False
+
+    manifest = json.loads(MANIFEST_PATH.read_text())
+    present: dict[str, int] = {}
+    for record in manifest.get("filings", []):
+        path = ROOT / record["path"]
+        if path.exists() and path.stat().st_size > 0:
+            present[record["club"]] = present.get(record["club"], 0) + 1
+    return all(present.get(slug, 0) >= FILINGS_PER_CLUB for slug in clubs)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--resolve-only", action="store_true")
@@ -280,6 +308,13 @@ def main(argv: list[str] | None = None) -> int:
         help="re-run entity resolution even if data/entities.json exists",
     )
     args = ap.parse_args(argv)
+
+    # An API key is only needed to fetch something we do not already have. Requiring
+    # it unconditionally would make `make pipeline` fail offline on a fully cached
+    # checkout, which is exactly the case the cache exists to support.
+    if not args.reresolve and fully_cached():
+        print(f"all filings already cached in {RAW.relative_to(ROOT)} — nothing to fetch")
+        return 0
 
     try:
         client = CompaniesHouseClient()

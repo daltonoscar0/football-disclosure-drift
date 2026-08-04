@@ -87,3 +87,52 @@ def test_genuine_entities_survive_the_filter():
     # A leading "The" must not hide the club name.
     assert _plausible({"title": "THE ARSENAL FOOTBALL CLUB LIMITED", "company_status": "active"}, arsenal)
     assert _plausible({"title": "WH HOLDING LIMITED", "company_status": "active"}, west_ham)
+
+
+def test_fully_cached_requires_every_club_and_filing(tmp_path, monkeypatch):
+    """A complete cache must not demand an API key; a partial one must."""
+    import json
+
+    from src import ingest
+
+    entities = tmp_path / "entities.json"
+    manifest = tmp_path / "manifest.json"
+    raw = tmp_path / "raw"
+    monkeypatch.setattr(ingest, "ENTITIES_PATH", entities)
+    monkeypatch.setattr(ingest, "MANIFEST_PATH", manifest)
+    monkeypatch.setattr(ingest, "ROOT", tmp_path)
+
+    assert ingest.fully_cached() is False  # nothing on disk
+
+    slugs = [c["slug"] for c in ingest.CLUBS]
+    entities.write_text(json.dumps({"clubs": {s: {"chosen": "0001"} for s in slugs}}))
+
+    filings = []
+    for slug in slugs:
+        for year in ("2023", "2024", "2025"):
+            rel = f"raw/{slug}/{year}.pdf"
+            (raw / slug).mkdir(parents=True, exist_ok=True)
+            (tmp_path / rel).write_bytes(b"%PDF-1.4 stub")
+            filings.append({"club": slug, "year": year, "path": rel})
+    manifest.write_text(json.dumps({"filings": filings}))
+    assert ingest.fully_cached() is True
+
+    # One filing missing from disk is enough to require a fetch.
+    (tmp_path / filings[0]["path"]).unlink()
+    assert ingest.fully_cached() is False
+
+
+def test_unresolved_club_is_not_treated_as_cached(tmp_path, monkeypatch):
+    import json
+
+    from src import ingest
+
+    entities = tmp_path / "entities.json"
+    monkeypatch.setattr(ingest, "ENTITIES_PATH", entities)
+    monkeypatch.setattr(ingest, "MANIFEST_PATH", tmp_path / "manifest.json")
+    slugs = [c["slug"] for c in ingest.CLUBS]
+    clubs = {s: {"chosen": "0001"} for s in slugs}
+    clubs[slugs[0]]["chosen"] = None
+    entities.write_text(json.dumps({"clubs": clubs}))
+    (tmp_path / "manifest.json").write_text(json.dumps({"filings": []}))
+    assert ingest.fully_cached() is False
