@@ -93,3 +93,24 @@ def test_text_quality_distinguishes_prose_from_garbage():
     prose = text_quality("The group and the company have set out the results of the year.")
     garbage = text_quality("qxz vbn plkj wrtq zzxc mnbv lkjh gfds")
     assert prose["common_word_ratio"] > garbage["common_word_ratio"]
+
+
+def test_combined_income_statement_heading_is_matched():
+    """Tottenham puts two statements under one heading."""
+    assert (
+        classify_heading("Consolidated income statement and statement of other comprehensive income")
+        == "profit_and_loss"
+    )
+
+
+def test_running_headers_with_continued_suffix():
+    assert classify_heading("NOTES TO THE FINANCIAL STATEMENTS (CONTINUED)") == "notes"
+    assert classify_heading("INDEPENDENT AUDITOR'S REPORT ... (continued)") is None
+    assert classify_heading("Notes to the Accounts") == "notes"
+
+
+def test_ocr_rule_line_artefacts_do_not_block_headings():
+    """OCR leaves stray | and : characters on header lines."""
+    assert classify_heading("CONSOLIDATED PROFIT AND LOSS ACCOUNT :") == "profit_and_loss"
+    assert classify_heading(". CONSOLIDATED PROFIT AND LOSS ACCOUNT") == "profit_and_loss"
+    assert classify_heading("STRATEGIC REPORT |") == "strategic_report"

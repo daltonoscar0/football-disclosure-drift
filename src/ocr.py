@@ -8,10 +8,12 @@ pdfplumber to read. This stage renders each page and runs Tesseract over it.
               these scans and it renders faster. pypdfium2 also opens two filings
               whose xref tables pdfminer rejects outright.
   engine      the `tesseract` CLI, invoked directly rather than through a wrapper
-              package, with --psm 6 ("uniform block of text"). psm 6 keeps a P&L
-              row and its figures on one output line, which is what the extractor
-              needs; the default fully-automatic mode splits columns into separate
-              blocks and interleaves them.
+              package, with --psm 3 (automatic page segmentation). psm 3 keeps a
+              P&L row and its figures on one output line — verified byte-identical
+              to psm 6 on Arsenal's six-column statement — and it is the only mode
+              that reads Everton's two-column designed annual report correctly.
+              Under psm 6 that layout is read line-across, interleaving the two
+              columns into nonsense and hiding the section headings entirely.
 
 Output is cached per filing at data/ocr/<club>/<year>.json, so this expensive stage
 runs once and every later run is offline and instant. Tesseract is deterministic for
@@ -38,7 +40,7 @@ OCR = ROOT / "data" / "ocr"
 MANIFEST_PATH = RAW / "manifest.json"
 
 DPI = 200
-PSM = 6
+PSM = 3
 
 
 def ocr_page(args: tuple[str, int]) -> tuple[int, str]:

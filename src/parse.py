@@ -72,6 +72,9 @@ HEADING_PATTERNS: list[tuple[str, re.Pattern]] = [
             r"(?:profit\s+and\s+loss\s+account|income\s+statement|"
             r"statement\s+of\s+(?:comprehensive\s+income|profit\s+or\s+loss)"
             r"(?:\s+and\s+other\s+comprehensive\s+income)?)"
+            # Tottenham: "Consolidated income statement and statement of other
+            # comprehensive income" — the two statements share one heading.
+            r"(?:\s+and\s+(?:the\s+)?statement\s+of\s+other\s+comprehensive\s+income)?"
             r"(?:\s+for\s+the\s+(?:year|period).*)?$",
             re.I,
         ),

@@ -70,10 +70,21 @@ Choices made:
   Tesseract itself is a new **system** prerequisite (`brew install tesseract`), now
   documented in the README. This is a real widening of the dependency surface and
   is justified only because there is no text without it.
-- *`--psm 6` ("uniform block of text").* The default fully-automatic page
-  segmentation treats P&L columns as separate blocks and interleaves them, which
-  destroys row structure. psm 6 keeps a label and its figures on one output line,
-  which is exactly what the extractor's row regexes need.
+- *`--psm 3` (automatic page segmentation).* **Corrected from an earlier choice of
+  psm 6.** I originally picked psm 6 ("uniform block of text") on the assumption
+  that automatic segmentation would split P&L columns into separate blocks and
+  interleave them. That assumption was asserted, not tested, and it was wrong. On
+  Arsenal's six-column consolidated P&L the two modes produce byte-identical
+  output. On Everton they do not: Everton files a designed, two-column magazine-
+  style annual report, and psm 6 reads it *line-across*, welding the left and right
+  columns into one line ("...significant to **Gate receipts revenue of £19.1m was
+  generated from 19 Premier League**") and missing the section headings entirely.
+  psm 3 reads the columns correctly and recovers "STRATEGIC REPORT" and
+  "CONSOLIDATED PROFIT AND LOSS ACCOUNT" as clean running headers.
+
+  This is why all 15 filings were re-OCR'd with a single setting rather than
+  special-casing Everton: a study that measures language change across clubs should
+  not vary its text-acquisition method by club.
 - *`OMP_THREAD_LIMIT=1` per worker.* Each Tesseract process otherwise spawns its
   own thread pool; with a process pool on top, the workers oversubscribe the CPU
   and the batch runs slower than with the limit set.
@@ -102,6 +113,23 @@ These filings repeat the section name at the top of every page
 ("NOTES TO THE FINANCIAL STATEMENTS (CONTINUED)"). Heading matching therefore
 strips a trailing "(continued)" and OCR rule-line artefacts (`|`, `:`) before
 testing the pattern. Segment merging (below) makes the repetition harmless.
+
+**2026-08-04 — Everton needed no special-casing once the OCR mode was right.**
+Everton's three filings initially came out with no strategic report and no notes
+section detected — 3 of 15, past the "flag and exclude" threshold. The apparent
+cause was that its section titles appear only on the contents page, which pointed
+towards building a contents-page-to-page-range fallback. That turned out to be
+unnecessary: the titles *are* present as running headers on every page, and psm 6
+was simply failing to read them out of the two-column layout. Switching to psm 3
+fixed all three filings with no Everton-specific code. Worth recording as a case
+where the tempting fix would have added machinery to paper over a bad upstream
+setting.
+
+**2026-08-04 — Tottenham combines two statements under one heading.**
+Tottenham's heading is "Consolidated income statement and statement of other
+comprehensive income", which the P&L pattern rejected because it requires a
+whole-line match. The pattern now accepts the trailing "and statement of other
+comprehensive income".
 
 **2026-08-04 — Heading detection over sequential assignment, not page ranges.**
 UK statutory accounts have a stable running order, so each detected heading opens a
