@@ -1,0 +1,17 @@
+{
+  "excluded_filings": [],
+  "identical_cosine_novelty": 0.0,
+  "identical_jaccard_novelty": 0.0,
+  "identical_surprisal_bits": 1.96525,
+  "passes": {
+    "identical_cosine_novelty_near_zero": true,
+    "identical_jaccard_novelty_zero": true,
+    "shuffled_more_surprising_than_identical": true
+  },
+  "reference": {
+    "club": "arsenal",
+    "n_tokens": 6016,
+    "year": "2025"
+  },
+  "shuffled_surprisal_bits": 9.448605
+}

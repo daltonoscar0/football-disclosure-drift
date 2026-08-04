@@ -1,0 +1,6 @@
+club,n_pairs,mean_cosine_novelty,max_cosine_novelty,mean_jaccard_novelty,mean_surprisal_bits,max_surprisal_bits
+chelsea,2,0.290141,0.300699,0.414098,4.564996,5.557298
+tottenham,2,0.256076,0.328918,0.417569,5.280718,6.258624
+arsenal,2,0.242642,0.29724,0.422866,5.543176,6.408938
+west-ham,2,0.240975,0.246815,0.390233,4.524527,4.530974
+everton,2,0.20594,0.211313,0.341774,3.938069,4.104085

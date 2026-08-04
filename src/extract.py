@@ -541,6 +541,12 @@ def write_validation(rows: list[dict], context: list[dict] | None = None) -> Non
         "`verified?` column with `y` or `n`; where the value is wrong put the correct",
         "figure in `corrected_value` **in pounds** (not thousands).",
         "",
+        "`cross-check vs next year` compares each value with the comparative column",
+        "the *following* year's filing prints for the same line. `ok` means the two",
+        "agree. A **MISMATCH** means they disagree — which may be OCR damage on either",
+        "side, or a genuine change of basis (e.g. \"Wages and salaries\" one year and",
+        "\"Staff costs\" the next). These are the rows to check first.",
+        "",
         "`confidence` is the extractor's own assessment: `high` = unambiguous label",
         "matched in the expected section with an explicit unit marker; `medium` = a",
         "fallback label or a document-level unit inference; `low` = unit assumed or",
@@ -552,9 +558,10 @@ def write_validation(rows: list[dict], context: list[dict] | None = None) -> Non
         lines.append(f"## {club}")
         lines.append("")
         lines.append(
-            "| year | item | value | conf | section | source row | verified? | corrected_value |"
+            "| year | item | value | conf | cross-check vs next year | section | source row "
+            "| verified? | corrected_value |"
         )
-        lines.append("|---|---|---|---|---|---|---|---|")
+        lines.append("|---|---|---|---|---|---|---|---|---|")
         for year in sorted({r["year"] for r in rows if r["club"] == club}):
             for item in ITEMS:
                 row = next(
@@ -564,9 +571,14 @@ def write_validation(rows: list[dict], context: list[dict] | None = None) -> Non
                 if row is None:
                     continue
                 snippet = row["source_snippet"].replace("|", "\\|") or "—"
+                check = row.get("cross_check") or "—"
+                if check.startswith("agrees"):
+                    check = "ok"
+                elif check.startswith("MISMATCH"):
+                    check = f"**{check}**"
                 lines.append(
                     f"| {year} | {item} | {_fmt(row['value_gbp'])} | {row['confidence']} "
-                    f"| {row['source_section'] or '—'} | `{snippet}` |  |  |"
+                    f"| {check} | {row['source_section'] or '—'} | `{snippet}` |  |  |"
                 )
         lines.append("")
         club_context = [c for c in (context or []) if c["club"] == club]
