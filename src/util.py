@@ -22,6 +22,15 @@ def jload(path: Path):
     return json.loads(Path(path).read_text())
 
 
+def has_parsed_filings(parsed_dir: Path) -> bool:
+    """True only if real output exists. Bare .gitkeep placeholders do not count."""
+    if not parsed_dir.exists():
+        return False
+    return any(
+        any(d.glob("*.json")) for d in parsed_dir.iterdir() if d.is_dir()
+    )
+
+
 def club_years(parsed_dir: Path) -> list[tuple[str, str]]:
     """Every (club, year) pair with a parsed filing, in sorted order."""
     pairs = []

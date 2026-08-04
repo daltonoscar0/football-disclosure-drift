@@ -26,7 +26,7 @@ import re
 import sys
 from pathlib import Path
 
-from .util import ROOT, jload
+from .util import ROOT, has_parsed_filings, jload
 
 PARSED = ROOT / "data" / "parsed"
 EXTRACTED = ROOT / "data" / "extracted"
@@ -260,7 +260,7 @@ def _rank(candidate: dict) -> tuple:
 
 
 def run() -> int:
-    if not PARSED.exists() or not any(PARSED.iterdir()):
+    if not has_parsed_filings(PARSED):
         print("error: nothing parsed yet — run `make parse` first.", file=sys.stderr)
         return 1
 

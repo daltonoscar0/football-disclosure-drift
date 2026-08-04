@@ -28,7 +28,7 @@ from pathlib import Path
 
 import pdfplumber
 
-from .util import ROOT, jdump, jload
+from .util import ROOT, has_parsed_filings, jdump, jload
 
 RAW = ROOT / "data" / "raw"
 PARSED = ROOT / "data" / "parsed"
@@ -300,7 +300,7 @@ def run(force: bool = False) -> list[dict]:
 
 def check() -> int:
     """`make check-parse`: per-filing page count, sections, and char counts."""
-    if not PARSED.exists() or not any(PARSED.iterdir()):
+    if not has_parsed_filings(PARSED):
         print("error: nothing parsed yet — run `make parse` first.", file=sys.stderr)
         return 1
     problems = 0

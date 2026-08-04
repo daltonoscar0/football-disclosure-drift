@@ -28,7 +28,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from .util import ROOT, jdump, jload
+from .util import ROOT, has_parsed_filings, jdump, jload
 
 PARSED = ROOT / "data" / "parsed"
 SCORES = ROOT / "data" / "scores"
@@ -256,7 +256,7 @@ def write_csv(path: Path, rows: list[dict], fieldnames: list[str]) -> None:
 
 
 def run() -> int:
-    if not PARSED.exists() or not any(PARSED.iterdir()):
+    if not has_parsed_filings(PARSED):
         print("error: nothing parsed yet — run `make parse` first.", file=sys.stderr)
         return 1
     docs, excluded = load_strategic_reports()
