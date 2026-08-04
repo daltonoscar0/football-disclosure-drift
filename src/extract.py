@@ -257,7 +257,15 @@ def clean_figures(
     substantial = [
         f
         for f in figures
-        if f[1].strip() in NIL_TOKENS or "," in f[1] or "." in f[1] or abs(f[0]) >= 100
+        # Parentheses mark an accounting figure, so "(25)" is a real -25 column and
+        # not a note reference, however small it is. Without this, Tottenham's
+        # "Profit on disposal of property, plant and equipment (25) -" collapsed to
+        # the nil column and reported 0 instead of a £25k loss.
+        if f[1].strip() in NIL_TOKENS
+        or f[1].strip().startswith("(")
+        or "," in f[1]
+        or "." in f[1]
+        or abs(f[0]) >= 100
     ]
     # A leading small comma-less integer alongside larger figures is a note ref.
     if substantial and len(substantial) < len(figures):

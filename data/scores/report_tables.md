@@ -1,6 +1,6 @@
 # Report tables
 
-_Line items: extractor output (NOT hand-validated)._
+_Line items: hand-validated._
 
 ## Club ranking by disclosure drift
 
@@ -37,10 +37,10 @@ _Line items: extractor output (NOT hand-validated)._
 | chelsea | 2023 | 512.5 | 404.0 | 205.0 | 76.5 |
 | chelsea | 2024 | 468.5 | 338.0 | 191.8 | 198.7 |
 | chelsea | 2025 | 490.9 | 359.3 | 213.9 | 0.0 |
-| everton | 2023 | 7.2 | 159.0 | 77.6 | 0.0 |
+| everton | 2023 | 172.2 | 159.0 | 77.6 | 0.0 |
 | everton | 2024 | 186.9 | 156.6 | 64.6 | 0.0 |
 | everton | 2025 | 196.7 | 152.1 | 50.9 | 0.0 |
-| tottenham | 2023 | 49.6 | 251.1 | 109.1 | 0.0 |
+| tottenham | 2023 | 549.6 | 251.1 | 109.1 | -0.0 |
 | tottenham | 2024 | 517.8 | 221.9 | 136.3 | 0.0 |
 | tottenham | 2025 | 564.9 | 255.8 | 141.9 | — |
 | west-ham | 2023 | 236.7 | 136.8 | 65.3 | — |

@@ -97,11 +97,11 @@ _Context — profit on disposal of **player registrations**. Not one of the four
 | 2023 | revenue | £49,633,000 | low | ok | profit_and_loss | `Revenue 2 $49,633 - $49,633 443,415 - 443,415` |  |  |
 | 2023 | wages | £251,121,000 | high | ok | notes | `Staff costs S) 251,121 209,180` |  |  |
 | 2023 | player_amortisation | £109,073,000 | medium | ok | notes | `Amortisation of intangible fixed assets 109,073 79,520` |  |  |
-| 2023 | profit_on_disposal | £0 | low | **MISMATCH: 2024 filing restates this as -25,000** | notes | `Profit on disposal of property, plant and equipment (25) -` |  |  |
+| 2023 | profit_on_disposal | £-25,000 | high | — | notes | `Profit on disposal of property, plant and equipment (25) -` |  |  |
 | 2024 | revenue | £517,763,000 | low | **MISMATCH: 2025 filing restates this as 0** | profit_and_loss | `Revenue 2 517,763 - 517,763 549,633 - $49,633` |  |  |
 | 2024 | wages | £221,929,000 | high | ok | notes | `Staff costs 221,929 251,121` |  |  |
 | 2024 | player_amortisation | £136,287,000 | medium | ok | notes | `Amortisation of intangible fixed assets 136,287 109,073` |  |  |
-| 2024 | profit_on_disposal | £6,000 | high | — | notes | `Loss/(profit) on disposal of property, plant and equipment 6 (25)` |  |  |
+| 2024 | profit_on_disposal | £-25,000 | medium | — | notes | `Loss/(profit) on disposal of property, plant and equipment 6 (25)` |  |  |
 | 2025 | revenue | £564,881,000 | medium | — | profit_and_loss | `Revenue 2 564,881 - $64,881 517,763 - 517,763` |  |  |
 | 2025 | wages | £255,811,000 | high | — | notes | `Staff costs 255,811 221,929` |  |  |
 | 2025 | player_amortisation | £141,851,000 | medium | — | notes | `Amortisation of intangible fixed assets 141,851 136,287` |  |  |

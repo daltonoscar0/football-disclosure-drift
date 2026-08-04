@@ -99,8 +99,9 @@ this is the only basis available for every club-year. Profit on disposals is
 **non-player** disposals only; player-registration disposals are a separate routine
 line, shown below as context.
 
-These are **pipeline output, not hand-validated**. Two values are known bad and are
-shown as extracted, marked ⚠, rather than silently corrected.
+All 60 values have been validated against the source filings; three were corrected
+(marked ✎) and the corrections are recorded with their evidence in
+`data/extracted/line_items.validated.csv`.
 
 | Club | Year | Revenue | Wages | Player amortisation | Profit on disposals |
 |---|---|---:|---:|---:|---:|
@@ -110,11 +111,11 @@ shown as extracted, marked ⚠, rather than silently corrected.
 | **Chelsea** | **2023** | 512.5 | 404.0 | 205.0 | **76.5** |
 | **Chelsea** | **2024** | 468.5 | 338.0 | 191.8 | **198.7** |
 | **Chelsea** | **2025** | 490.9 | 359.3 | 213.9 | 0.0 |
-| Everton | 2023 | ⚠ 7.2 | 159.0 | 77.6 | 0.0 |
+| Everton | 2023 | ✎ 172.2 | 159.0 | 77.6 | 0.0 |
 | Everton | 2024 | 186.9 | 156.6 | 64.6 | 0.0 |
 | Everton | 2025 | 196.7 | 152.1 | 50.9 | 0.0 |
-| Tottenham | 2023 | ⚠ 49.6 | 251.1 | 109.1 | 0.0 |
-| Tottenham | 2024 | 517.8 | 221.9 | 136.3 | 0.0 |
+| Tottenham | 2023 | ✎ 549.6 | 251.1 | 109.1 | −0.0 |
+| Tottenham | 2024 | 517.8 | 221.9 | 136.3 | ✎ 0.0 |
 | Tottenham | 2025 | 564.9 | 255.8 | 141.9 | — |
 | West Ham | 2023 | 236.7 | 136.8 | 65.3 | — |
 | West Ham | 2024 | 269.7 | 161.0 | 83.5 | — |
@@ -124,21 +125,29 @@ shown as extracted, marked ⚠, rather than silently corrected.
 discloses only player disposals in all three years, which is why its column is
 empty rather than zero.
 
-⚠ **Two revenue figures are OCR-damaged and flagged by the pipeline.** Everton FY2023
-reads `Turnover 2 7215S - 172,A55` — the scan mangled 172,155 — and Tottenham FY2023
-reads `Revenue 2 $49,633` where the digit 5 was lost from 549,633. Both are caught by
-the series check as order-of-magnitude departures from the club's own median
-(0.04× and 0.10×). The true figures are legible in the following year's comparative
-column (£172.2m and £549.6m) but are **not** substituted here, because correcting
-extracted values by hand is the validation step's job, not the extractor's.
+### ✎ Corrections applied at validation
 
-Tottenham FY2023 is the more instructive failure: it *passed* the cross-year check,
-because the FY2024 filing's comparative column carries the same OCR damage. Two
-independent readings agreed on a wrong number. Only the series check caught it —
-which is a useful reminder that agreement between checks is not proof of
-correctness.
+Six values were flagged by the automated checks. Three were genuine errors and were
+corrected; three flags were spurious and the original value was upheld. Each
+correction is evidenced by a second, independent appearance of the figure in the
+filings — not by judgement.
 
-None of this affects the drift results, which are computed from the strategic report
+| Value | Extracted | Corrected | Evidence |
+|---|---:|---:|---|
+| Everton FY2023 revenue | 7.2 | **172.2** | OCR read 172,155 as `7215S`. FY2024's comparative column reads 172,155 and its KPI table reads `Turnover 186.9 172.2`. |
+| Tottenham FY2023 revenue | 49.6 | **549.6** | OCR dropped the leading 5 from 549,633. FY2023's own five-year summary reads `Revenue 549,633 444,028*`; FY2024 reads `Revenue and other income 528,191 549,633`. |
+| Tottenham FY2024 disposals | −0.025 | **0** | The row prints one figure, `6 (25)`; neighbouring rows carry two columns, so the (25) is the FY2023 comparative. FY2023's own filing reports it as its current year. |
+
+The three spurious flags were all comparative-reader failures rather than wrong
+values — e.g. Chelsea FY2024's £198.7m was flagged because FY2025's own column is
+nil, so the reader missed the 198,749 sitting in the comparative position.
+
+Tottenham FY2023 is the instructive one: it **passed** the cross-year check, because
+the FY2024 filing's comparative column carries the same OCR damage. Two independent
+readings agreed on a wrong number, and only the series check caught it. Agreement
+between checks is not proof of correctness.
+
+None of this affects the drift results, which are computed from strategic report
 text and never touch these figures.
 
 **Chelsea is the only club in the sample with material non-player disposal profits.**
@@ -245,10 +254,10 @@ removes exactly one of the two events from the analysis.
   single stray OCR character (`GROUP PROFIT AND LOSS ACCOUNT ;`) was enough to lose
   an entire statement before it was fixed. Other filings may fail in ways this
   sample did not exercise.
-- **The line items in this note are extractor output, not hand-validated.** The two
-  automated checks give independent support for most values, but the six flagged
-  figures and five absent lines have not been confirmed by eye against the source
-  PDFs. `make report` warns whenever it builds tables from unvalidated numbers.
+- **Line items are validated but the validation is documentary, not an audit.** Each
+  value was checked against its source row and, where corrected, against a second
+  independent appearance of the figure elsewhere in the filings. That is weaker than
+  reconciling to the audited accounts line by line.
 - **Strategic report length varies substantially** both across clubs and within a
   club across years (Chelsea: 5,152 → 2,853 tokens). This is not controlled for and
   affects the surprisal measure in particular.
@@ -262,7 +271,7 @@ removes exactly one of the two events from the analysis.
 ```
 make pipeline    # ~3s once data/raw and data/ocr are populated
 make check-parse # per-filing sections and character counts
-make test        # 80 tests
+make test        # 82 tests
 ```
 
 All outputs are deterministic: fixed iteration order, no RNG, stable JSON key

@@ -61,7 +61,7 @@ make check-parse   # per-filing page counts, sections, char counts
 make extract       # four line items per filing -> data/extracted/
 make score         # YoY surprisal -> data/scores/
 make report        # tables and ranking for FINDINGS.md
-make test          # smoke tests
+make test          # 82 tests
 ```
 
 `data/raw/` and `data/ocr/` are cached and gitignored. Once populated the whole
@@ -77,5 +77,7 @@ paid once and cached.
 `data/extracted/VALIDATION.md` lists all 60 extracted values with the exact filing
 row each came from, plus two independent checks: each value against the comparative
 the *following* year's filing prints for the same line, and against the club's own
-median. `make report` warns if it is asked to build tables from values that have not
-been hand-validated.
+median. All 60 values have been validated: `data/extracted/line_items.validated.csv`
+records the outcome for each, including the three corrected figures and the evidence
+for each correction. `make report` prefers that file over raw extractor output and
+warns if it is ever asked to build tables from unvalidated numbers.

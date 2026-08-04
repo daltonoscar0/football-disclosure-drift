@@ -296,3 +296,38 @@ proper distribution (probabilities over the vocabulary for a fixed context sum t
 Identical documents must score ~0 novelty, and a deterministically shuffled
 document must be more surprising than the original. The shuffle is a fixed stride
 permutation rather than an RNG shuffle, so the check adds no seed dependency.
+
+## Validation (Checkpoint A outcome)
+
+**2026-08-04 — Wages basis: total staff costs, agreed at Checkpoint A.**
+Tottenham discloses no "wages and salaries" line in any year, so total staff costs
+is the only basis available for every club-year. The narrower basis would have left
+Tottenham blank and made the wages column non-comparable across clubs. Chelsea and
+West Ham print the components without a labelled total, so their totals are summed
+from the components and verified by the arithmetic
+(`152,926 + 22,638 + 329 = 175,893`). Basis includes social security and pension
+costs and runs 12–15% above pure wages.
+
+**2026-08-04 — Three of six flagged values were genuine errors; three flags were
+spurious.**
+Corrections are recorded in `data/extracted/line_items.validated.csv` with the
+evidence for each. Every correction is justified by a second, independent appearance
+of the figure inside the filings, never by judgement:
+
+- Everton FY2023 revenue 7.2 → 172.2 (OCR read 172,155 as "7215S")
+- Tottenham FY2023 revenue 49.6 → 549.6 (leading 5 lost from 549,633)
+- Tottenham FY2024 disposals −0.025 → 0 (the single printed figure is the FY2023
+  comparative)
+
+The three upheld flags were comparative-reader failures rather than wrong values.
+
+**2026-08-04 — Tottenham FY2023 revenue passed the cross-year check while being
+wrong.** The FY2024 filing's comparative column carries the same OCR damage, so two
+independent readings agreed on 49,633. Only the series check — an order-of-magnitude
+departure from the club's own median — caught it. This is why both checks exist, and
+why agreement between them is reported rather than treated as proof.
+
+**2026-08-04 — Parenthesised figures are never note references.**
+"(25)" is a real −25 column however small. Treating small comma-less numbers as note
+references collapsed Tottenham's "Profit on disposal of property, plant and
+equipment (25) -" to the nil column and reported 0 instead of a £25k loss.

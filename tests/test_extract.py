@@ -326,3 +326,16 @@ def test_series_check_leaves_disposals_alone():
     ]
     series_check(rows)
     assert all("OUTLIER" not in r["cross_check"] for r in rows)
+
+
+def test_small_bracketed_figures_are_not_mistaken_for_note_references():
+    """Parentheses mark an accounting figure regardless of magnitude."""
+    sections = {
+        "profit_and_loss": "Profit on disposal of property, plant and equipment (25) -"
+    }
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == -25_000
+
+
+def test_bare_small_integers_are_still_dropped_as_note_refs():
+    figures = row_figures("Turnover 2 468,712 442,364", len("Turnover"))
+    assert pick_current_year(figures, 1_000)[0] == 468_712.0
