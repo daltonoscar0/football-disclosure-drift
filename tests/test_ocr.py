@@ -36,3 +36,25 @@ def test_page_count_matches_the_document(filing_pdf):
 
 def test_load_pages_returns_none_when_not_ocred():
     assert ocr.load_pages("no-such-club", "1999") is None
+
+
+def test_cache_is_stale_when_settings_change(tmp_path):
+    """A cached result OCR'd under different settings must not be reused: mixing
+    settings across clubs would vary text acquisition by club."""
+    from src.util import jdump
+
+    path = tmp_path / "2024.json"
+    jdump({"pages": [], "dpi": ocr.DPI, "psm": ocr.PSM}, path)
+    assert ocr.cache_is_stale(path) is None
+
+    jdump({"pages": [], "dpi": ocr.DPI, "psm": ocr.PSM + 3}, path)
+    assert "psm" in ocr.cache_is_stale(path)
+
+    jdump({"pages": [], "dpi": 72, "psm": ocr.PSM}, path)
+    assert "dpi" in ocr.cache_is_stale(path)
+
+
+def test_unreadable_cache_is_stale(tmp_path):
+    path = tmp_path / "broken.json"
+    path.write_text("{not json")
+    assert ocr.cache_is_stale(path) == "unreadable cache"

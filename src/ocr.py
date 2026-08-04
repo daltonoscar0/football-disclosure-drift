@@ -121,8 +121,11 @@ def run(force: bool = False, workers: int | None = None) -> int:
         pdf_path = ROOT / record["path"]
         out_path = OCR / club / f"{year}.json"
         if out_path.exists() and not force:
-            print(f"{club} {year}: cached")
-            continue
+            stale = cache_is_stale(out_path)
+            if not stale:
+                print(f"{club} {year}: cached")
+                continue
+            print(f"{club} {year}: re-OCR ({stale})")
         if not pdf_path.exists():
             print(f"{club} {year}: missing PDF, skipping", file=sys.stderr)
             continue
@@ -133,6 +136,24 @@ def run(force: bool = False, workers: int | None = None) -> int:
         chars = sum(len(p) for p in result["pages"])
         print(f"{club} {year}: {result['n_pages']} pages, {chars:,} chars")
     return 0
+
+
+def cache_is_stale(path: Path) -> str | None:
+    """Why a cached OCR result no longer matches current settings, or None.
+
+    Presence on disk is not enough: text OCR'd under different settings is not
+    interchangeable with text OCR'd under the current ones, and mixing the two
+    across clubs would mean the study varied its text acquisition by club.
+    """
+    try:
+        cached = jload(path)
+    except (ValueError, OSError):
+        return "unreadable cache"
+    if cached.get("dpi") != DPI:
+        return f"dpi {cached.get('dpi')} != {DPI}"
+    if cached.get("psm") != PSM:
+        return f"psm {cached.get('psm')} != {PSM}"
+    return None
 
 
 def load_pages(club: str, year: str) -> list[str] | None:
