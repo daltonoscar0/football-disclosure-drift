@@ -30,7 +30,9 @@ report:
 test:
 	.venv/bin/pytest -q tests
 
-# Removes everything derived. Leaves data/raw/ and data/ocr/ — the two expensive,
-# cached stages — alone.
+# Removes everything derived. Deliberately preserves three things: data/raw/ and
+# data/ocr/ (expensive to rebuild) and line_items.validated.csv, which is
+# hand-validation work and an input to the report, not an output of the pipeline.
 clean-derived:
-	rm -rf data/parsed/* data/extracted/* data/scores/*
+	rm -rf data/parsed/* data/scores/*
+	find data/extracted -type f ! -name 'line_items.validated.csv' ! -name '.gitkeep' -delete
