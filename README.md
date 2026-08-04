@@ -16,6 +16,19 @@ python3.12 -m venv .venv
 export COMPANIES_HOUSE_API_KEY=...
 ```
 
+### Getting an API key
+
+1. Register at <https://developer.company-information.service.gov.uk/> and sign in.
+2. **Manage applications → Add an application**, environment **Live**.
+3. Inside the application, **Create new key** with key type **REST**. The streaming
+   and document-only key types will not work for the filing-history calls.
+4. Export the key in your shell. It is read from the environment only and is never
+   written to disk by any stage of this pipeline.
+
+The key is needed for `make ingest` alone. Once `data/raw/` is populated every
+later stage runs offline, and `ingest` re-run is a no-op for anything already
+cached.
+
 ## Run
 
 ```
