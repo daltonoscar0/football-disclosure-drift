@@ -12,7 +12,11 @@ line-level text is enough once the numeric conventions are handled:
                 a figure. Small comma-less integers are dropped when larger figures
                 follow on the same row.
   restatements  Filings print current year then prior year (sometimes labelled
-                "restated"). We always take the first figure, i.e. the current year.
+                "restated"). We take the current-year column, never the comparative.
+  analysis      Some filings split each year across sub-columns ("excluding player
+  columns       trading | player trading | Total"), so a row can carry six figures
+                and the current-year total is the third. The total column is found
+                arithmetically — the first figure that the figures before it sum to.
 
 Every value carries the exact source row it came from so it can be hand-checked.
 Output: data/extracted/line_items.csv and data/extracted/VALIDATION.md
@@ -112,9 +116,15 @@ SEARCH_ORDER: dict[str, tuple[str, ...]] = {
 # and let the item name carry the sign convention.
 COST_ITEMS = {"wages", "player_amortisation"}
 
+# OCR mangles the £'000 column head in predictable ways: the apostrophe is read as
+# a 7 ("£7000"), dropped ("£000"), or the pound sign is read as E or €. All of these
+# appear in the actual filings, so the unit patterns have to absorb them.
 UNIT_PATTERNS = [
-    (1_000_000, re.compile(r"£\s*[’'`]?\s*m\b|£\s*million|in\s+millions", re.I)),
-    (1_000, re.compile(r"£\s*[’'`]?\s*0{3}\b|in\s+thousands|£\s*[’'`]000", re.I)),
+    (1_000_000, re.compile(r"[£€E]\s*[’'`]?\s*m\b|£\s*million|in\s+millions", re.I)),
+    (
+        1_000,
+        re.compile(r"[£€E]\s*[’'`7]?\s*0{3}(?![\d,])|in\s+thousands", re.I),
+    ),
 ]
 
 NUMBER = re.compile(r"\(?-?\d{1,3}(?:,\d{3})+(?:\.\d+)?\)?|\(?-?\d+(?:\.\d+)?\)?")
@@ -158,24 +168,60 @@ def row_figures(line: str, label_end: int) -> list[tuple[float, str]]:
     return out
 
 
-def pick_current_year(figures: list[tuple[float, str]], multiplier: int) -> tuple[float, str] | None:
-    """First real figure on the row. Note references are dropped first."""
-    if not figures:
-        return None
-    substantial = [
-        f
-        for f in figures
-        if "," in f[1] or "." in f[1] or abs(f[0]) >= 100
-    ]
+TOTAL_TOLERANCE = 1.0
+
+
+def find_total_column(figures: list[tuple[float, str]]) -> int | None:
+    """Index of a total column, if the row is split into analysis columns.
+
+    Several filings analyse the P&L across columns rather than presenting one figure
+    per year. Arsenal's runs "excluding player trading | player trading | Total" for
+    each of two years, so a turnover row carries six figures and the current-year
+    total is the *third*, not the first:
+
+        Group turnover 3   615,206   1,374   616,580   465,228   1,457   466,685
+
+    Taking figures[0] would silently report the football-only column. We detect the
+    total by arithmetic: the smallest k such that the figures before it sum to it.
+    On an ordinary two-column row (current year, comparative) no such k exists and
+    the first figure is used, which is the correct behaviour there.
+    """
+    for k in range(2, len(figures)):
+        prefix = sum(f[0] for f in figures[:k])
+        if abs(prefix - figures[k][0]) <= TOTAL_TOLERANCE and abs(figures[k][0]) > 0:
+            return k
+    return None
+
+
+def clean_figures(
+    figures: list[tuple[float, str]], multiplier: int
+) -> list[tuple[float, str]]:
+    """Drop note references, leaving only genuine figure columns."""
+    substantial = [f for f in figures if "," in f[1] or "." in f[1] or abs(f[0]) >= 100]
     # A leading small comma-less integer alongside larger figures is a note ref.
     if substantial and len(substantial) < len(figures):
-        figures = substantial
-    elif multiplier == 1_000_000 and figures:
+        return substantial
+    if multiplier == 1_000_000 and figures:
         # In £m, genuine values are small; only drop a bare leading integer if a
         # decimal figure follows it.
         decimals = [f for f in figures if "." in f[1]]
         if decimals and "." not in figures[0][1] and abs(figures[0][0]) < 100:
-            figures = decimals
+            return decimals
+    return figures
+
+
+def pick_current_year(
+    figures: list[tuple[float, str]], multiplier: int
+) -> tuple[float, str] | None:
+    """The current-year figure on a row. Note references are dropped first."""
+    if not figures:
+        return None
+    figures = clean_figures(figures, multiplier)
+    if not figures:
+        return None
+    total_at = find_total_column(figures)
+    if total_at is not None:
+        return figures[total_at]
     return figures[0]
 
 
@@ -204,6 +250,7 @@ def find_item(item: str, sections: dict[str, str], doc_text: str) -> dict:
                 if picked is None:
                     continue
                 value, raw = picked
+                columns = clean_figures(figures, multiplier)
                 candidate = {
                     "item": item,
                     "value_gbp": value * multiplier,
@@ -213,7 +260,8 @@ def find_item(item: str, sections: dict[str, str], doc_text: str) -> dict:
                     "source_section": section_name,
                     "source_snippet": re.sub(r"\s+", " ", snippet)[:220],
                     "tier": tier,
-                    "n_figures_on_row": len(figures),
+                    "n_figures_on_row": len(columns),
+                    "total_column": find_total_column(columns) is not None,
                 }
                 if best is None or _rank(candidate) < _rank(best):
                     best = candidate
@@ -242,7 +290,17 @@ def find_item(item: str, sections: dict[str, str], doc_text: str) -> dict:
     if best["n_figures_on_row"] < 2:
         # Real P&L rows carry a comparative. A lone figure may be a mis-slice.
         confidence = "low" if confidence != "high" else "medium"
+    if best["n_figures_on_row"] > 2:
+        # An analysis-column layout. The total-column arithmetic is reliable when it
+        # fires, but this is exactly the shape most worth a human glance.
+        confidence = "medium" if confidence == "high" else confidence
 
+    column_note = (
+        f"; row has {best['n_figures_on_row']} figures, took the "
+        + ("computed total column" if best["total_column"] else "first column")
+        if best["n_figures_on_row"] > 2
+        else ""
+    )
     return {
         "item": best["item"],
         "value_gbp": int(round(value)),
@@ -250,7 +308,8 @@ def find_item(item: str, sections: dict[str, str], doc_text: str) -> dict:
         "source_snippet": best["source_snippet"],
         "confidence": confidence,
         "note": f"{best['unit_evidence']}; matched tier {best['tier']}; "
-        f"took figure {best['raw_figure']!r} of {best['n_figures_on_row']} on row",
+        f"took figure {best['raw_figure']!r} of {best['n_figures_on_row']} on row"
+        + column_note,
     }
 
 
