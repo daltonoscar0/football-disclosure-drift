@@ -42,14 +42,22 @@ ITEMS = ("revenue", "wages", "player_amortisation", "profit_on_disposal")
 # Rows are labelled "Profit on disposal of ...", "Gain on disposal of ...", and
 # — where the line can swing either way — "(Loss)/profit on disposal of ..." or
 # "Profit/(loss) on disposal of ...". All four forms occur in these filings.
+# A "Loss on disposal of ..." row discloses the same line item with the opposite
+# sign; treating it as no-match reported a disclosed nil as missing data.
 _PROFIT_ON_DISPOSAL = (
-    r"^\s*(?:\(loss\)\s*/\s*)?(?:net\s+)?(?:profit|gain|surplus)"
-    r"(?:\s*/\s*\(loss\))?\s+on\s+(?:the\s+)?disposals?"
+    r"^\s*(?:\(loss\)\s*/\s*)?(?:net\s+)?(?:profit|gain|surplus|loss(?:es)?)"
+    r"(?:\s*/\s*\(?(?:loss|profit)\)?)?\s+on\s+(?:the\s+)?disposals?"
 )
+# Matches only a row whose label leads with "loss" outright (not "(loss)/profit"),
+# whose figures are therefore printed as positive magnitudes of a loss.
+_BARE_LOSS = re.compile(r"^\s*(?:net\s+)?loss(?:es)?\s+on\s", re.I)
 _PROFIT_PREFIX = _PROFIT_ON_DISPOSAL + r"\s+of\s+"
-# West Ham labels the routine line "Profit on disposal of players", not "... of player
-# registrations", so excluding only the latter let it into the tracked item.
-_NOT_PLAYERS = r"(?!\s+of\s+(?:the\s+)?players?[’'`]?s?\b)"
+# Everything the generic fallback must NOT treat as an intra-group asset sale.
+# West Ham labels the routine line "Profit on disposal of players" and Tottenham
+# calls it "... of intangible fixed assets"; both are player trading.
+_NOT_PLAYER_TRADING = (
+    r"(?!\s+of\s+(?:the\s+)?(?:players?[’'`]?s?\b|intangible\s+(?:fixed\s+)?assets\b))"
+)
 
 # Tier 1 patterns are unambiguous; tier 2 are acceptable fallbacks; a tier-2 hit
 # drops the confidence one notch. Patterns match at the start of a row's label.
@@ -59,10 +67,15 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         (1, re.compile(r"^\s*(?:group\s+|total\s+)?revenue\b(?!\s+recognition)", re.I)),
         (2, re.compile(r"^\s*turnover\s+and\s+(?:group\s+)?operating", re.I)),
     ],
+    # Basis: total staff costs, not "wages and salaries". Tottenham discloses no
+    # wages-and-salaries line at all, so staff costs is the only basis available for
+    # every club in every year — and a wages column that is not like-for-like across
+    # clubs is worse than one that is consistently broader. Includes social security
+    # and pension costs; runs ~12-15% above pure wages.
     "wages": [
-        (1, re.compile(r"^\s*wages\s+and\s+salaries\b", re.I)),
-        (2, re.compile(r"^\s*(?:total\s+)?staff\s+costs\b", re.I)),
-        (2, re.compile(r"^\s*(?:total\s+)?employee\s+(?:costs|benefit\s+expense)\b", re.I)),
+        (1, re.compile(r"^\s*(?:total\s+)?staff\s+costs\b(?!\s*:)", re.I)),
+        (1, re.compile(r"^\s*(?:total\s+)?employee\s+(?:costs|benefit\s+expense)\b", re.I)),
+        (2, re.compile(r"^\s*wages\s+and\s+salaries\b", re.I)),
     ],
     "player_amortisation": [
         (
@@ -93,7 +106,11 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         (
             1,
             re.compile(
-                _PROFIT_PREFIX + r"(?:intangible|tangible|fixed)\s+assets?"
+                # NOT "intangible assets": at a football club the intangible fixed
+                # assets *are* the player registrations, so Tottenham's "profit on
+                # disposal of intangible fixed assets" is routine player trading and
+                # belongs with PLAYERS_DISPOSAL, not here.
+                _PROFIT_PREFIX + r"(?:tangible\s+)?fixed\s+assets?"
                 r"(?:\s+investments?)?\b",
                 re.I,
             ),
@@ -111,7 +128,7 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         (
             2,
             re.compile(
-                _PROFIT_ON_DISPOSAL + _NOT_PLAYERS,
+                _PROFIT_ON_DISPOSAL + _NOT_PLAYER_TRADING,
                 re.I,
             ),
         ),
@@ -128,6 +145,7 @@ PLAYERS_DISPOSAL = [
         1,
         re.compile(_PROFIT_PREFIX + r"players?[’'`]?s?(?:\s+registrations?)?\b", re.I),
     ),
+    (1, re.compile(_PROFIT_PREFIX + r"intangible\s+(?:fixed\s+)?assets\b", re.I)),
     (2, re.compile(r"^\s*profits?\s+(?:arising\s+)?on\s+player\s+(?:sales|trading)\b", re.I)),
 ]
 
@@ -328,6 +346,80 @@ def logical_rows(text: str) -> list[str]:
     return rows
 
 
+WAGES_LABEL = re.compile(r"^\s*wages\s+and\s+salaries\b", re.I)
+MAX_STAFF_COST_COMPONENTS = 6
+
+
+def derive_staff_costs(sections: dict[str, str], doc_text: str) -> dict | None:
+    """Total staff costs, summed from the components in the employees note.
+
+    Chelsea and West Ham do not print a *labelled* staff-costs total — they list
+    wages, social security and pension costs and then an unlabelled total row. In
+    Chelsea's 2025 filing the note is a split block, so even the component labels
+    are separated from their figures. Both are handled the same way: from the
+    "Wages and salaries" label onwards, take the current-year figures in order and
+    find the first run that sums to the figure following it.
+
+        352,355 + 49,831 + 1,776 = 403,962   <- Chelsea 2023
+        312,812 + 44,041 + 2,412 = 359,265   <- Chelsea 2025, split block
+        152,926 + 22,638 +   329 = 175,893   <- West Ham 2025
+        204,648 + 28,569 + 1,549 = 234,766   <- Arsenal 2023, agrees with its
+                                                own labelled "Staff costs" row
+
+    The arithmetic is the verification: a run that does not sum to the next figure
+    is not a component breakdown, so nothing is returned.
+    """
+    for section_name in ("notes", "profit_and_loss"):
+        text = sections.get(section_name, "")
+        if not text.strip():
+            continue
+        multiplier, unit_evidence = detect_unit(text, doc_text)
+        rows = logical_rows(text)
+        for start, row in enumerate(rows):
+            if not WAGES_LABEL.match(strip_note_refs(LEADING_JUNK.sub("", row))):
+                continue
+            figures: list[float] = []
+            for candidate in rows[start : start + 40]:
+                picked = pick_current_year(
+                    row_figures(strip_note_refs(candidate), 0), multiplier
+                )
+                # A split-block note interleaves the column heading's year into the
+                # figure run ("2025" above "312,812"), which would break the sum.
+                if picked is not None and not _is_year(picked[1]):
+                    figures.append(picked[0])
+                if len(figures) > MAX_STAFF_COST_COMPONENTS + 2:
+                    break
+            # The run of components need not begin at the label — in a split block
+            # other figures can precede it — so try each starting point.
+            for first in range(max(1, len(figures) - 2)):
+                for k in range(first + 2, len(figures)):
+                    total = figures[k]
+                    if not total or abs(sum(figures[first:k]) - total) > TOTAL_TOLERANCE:
+                        continue
+                    if figures[first] == 0:  # a nil column ahead of the components
+                        continue
+                    return {
+                        "item": "wages",
+                        "value_gbp": int(round(total * multiplier)),
+                        "comparative_gbp": "",
+                        "source_section": section_name,
+                        "source_snippet": (
+                            "derived total staff costs: "
+                            + " + ".join(f"{f:,.0f}" for f in figures[first:k])
+                            + f" = {total:,.0f}"
+                        ),
+                        "confidence": "medium",
+                        "note": f"{unit_evidence}; summed from the components in the "
+                        "employees note (no labelled total is printed)",
+                    }
+    return None
+
+
+def _is_year(raw: str) -> bool:
+    text = raw.strip()
+    return bool(re.fullmatch(r"\d{4}", text)) and 1990 <= int(text) <= 2100
+
+
 def find_item(
     item: str,
     sections: dict[str, str],
@@ -395,6 +487,8 @@ def find_item(
     value = best["value_gbp"]
     if best["item"] in COST_ITEMS:
         value = abs(value)
+    elif _BARE_LOSS.match(best["source_snippet"]) and value > 0:
+        value = -value
     confidence = "high" if best["tier"] == 1 else "medium"
     if best["unit_evidence"].startswith("default"):
         confidence = "low"
@@ -450,6 +544,14 @@ def run() -> int:
             doc_text = "\n".join(sections[k] for k in sorted(sections))
             for item in ITEMS:
                 found = find_item(item, sections, doc_text)
+                if item == "wages" and _needs_derived_total(found):
+                    # Keep the basis identical across clubs: a labelled "Staff costs"
+                    # total where one exists, otherwise the same total summed from
+                    # its components. Falling back to "Wages and salaries" would
+                    # silently narrow the basis for some clubs and not others.
+                    derived = derive_staff_costs(sections, doc_text)
+                    if derived is not None:
+                        found = derived
                 rows.append({"club": parsed["club"], "year": parsed["year"], **found})
             # Context only, not one of the four tracked items.
             players = find_item(
@@ -525,6 +627,13 @@ def cross_check(rows: list[dict]) -> None:
         )
         row["restated_next_year"] = int(round(restated))
         row["confidence"] = "low"
+
+
+def _needs_derived_total(found: dict) -> bool:
+    """Whether a wages hit is something other than a total staff-costs figure."""
+    if found.get("value_gbp") == "":
+        return True
+    return bool(WAGES_LABEL.match(found.get("source_snippet", "")))
 
 
 def _fmt(value) -> str:

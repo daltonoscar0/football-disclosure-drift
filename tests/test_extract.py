@@ -67,8 +67,9 @@ def test_extracts_four_items_from_the_fixture(parsed_filing):
     assert revenue["confidence"] == "high"
     assert "Turnover" in revenue["source_snippet"]
 
+    # Basis is total staff costs, not the narrower "Wages and salaries" (219,304).
     wages = find_item("wages", sections, doc)
-    assert wages["value_gbp"] == 219_304_000
+    assert wages["value_gbp"] == 245_419_000
     assert wages["source_section"] == "notes"
 
     amort = find_item("player_amortisation", sections, doc)
@@ -208,3 +209,68 @@ def test_comparative_is_blank_when_the_row_is_ambiguous():
 
     truncated = row_figures("Turnover 186,902 - 186,902 172,155 172,155", 0)
     assert pick_comparative(truncated, 1_000) is None
+
+
+# -- wages basis ------------------------------------------------------------
+
+
+def test_staff_costs_total_is_derived_when_no_labelled_total_exists():
+    """Chelsea and West Ham print components and an unlabelled total. The total is
+    recovered by summing, and the arithmetic is the verification."""
+    from src.extract import derive_staff_costs
+
+    sections = {
+        "notes": (
+            "Their aggregate remuneration comprised:\n"
+            "Wages and salaries 352,355 297,569\n"
+            "Social security costs 49,831 40,974\n"
+            "Pension costs 1,776 1,706\n"
+            "403,962 340,249\n"
+        )
+    }
+    got = derive_staff_costs(sections, "£'000")
+    assert got["value_gbp"] == 403_962_000
+    assert "352,355 + 49,831 + 1,776 = 403,962" in got["source_snippet"]
+
+
+def test_staff_costs_derivation_handles_a_split_block():
+    """Chelsea 2025: labels and figures separate, with the column-heading year
+    interleaved into the figure run."""
+    from src.extract import derive_staff_costs
+
+    sections = {
+        "notes": (
+            "Their aggregate remuneration comprised:\n"
+            "-Wages and salaries\nSocial security costs\nPension costs\n"
+            "2025\n"
+            "312,812\n44,041\n2,412\n359,265\n"
+        )
+    }
+    assert derive_staff_costs(sections, "£'000")["value_gbp"] == 359_265_000
+
+
+def test_no_derivation_when_the_components_do_not_sum():
+    from src.extract import derive_staff_costs
+
+    sections = {"notes": "Wages and salaries 100\nSocial security 20\n999\n"}
+    assert derive_staff_costs(sections, "£'000") is None
+
+
+def test_intangible_asset_disposals_are_player_trading_not_asset_sales():
+    """At a football club the intangible fixed assets are the player registrations."""
+    sections = {
+        "profit_and_loss": "Profit on disposal of intangible fixed assets 6 - 52,565 52,565"
+    }
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == ""
+    players = find_item("x", sections, "", patterns=PLAYERS_DISPOSAL)
+    assert players["value_gbp"] == 52_565_000
+
+
+def test_a_disclosed_nil_loss_is_zero_not_missing():
+    sections = {"profit_and_loss": "Loss on disposal of tangible fixed assets - -"}
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == 0
+
+
+def test_a_bare_loss_row_is_negative():
+    sections = {"profit_and_loss": "Loss on disposal of fixed assets 2,985 1,000"}
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == -2_985_000
