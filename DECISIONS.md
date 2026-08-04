@@ -208,6 +208,55 @@ findings note. Dashes now parse to 0.0 and hold their column. The same fix makes
 Arsenal's `- 51,073 51,073 - 10,732 10,732` and Chelsea's
 `76,524 - 76,524 -` resolve correctly, and all three are pinned by tests.
 
+**2026-08-04 — Segmentation mode is chosen per page, not per filing.**
+Neither Tesseract mode works everywhere. On some statement pages automatic
+segmentation reads the label column and the figure columns as two separate blocks
+and emits them one after the other, leaving no label+figure rows at all:
+
+    Turnover se 3                  512,467 - 512,467 481,278
+    Cost of sales        becomes   (467,205) - (467,205) (386,794)
+
+That hit Chelsea's 2023 and 2025 statements — the case-study club. psm 6 reads
+those correctly but ruins Everton's two-column prose. So pages are OCR'd with
+psm 3, then any page whose figures came out orphaned from their labels is re-OCR'd
+with psm 6 and kept only if it yields more usable rows. 30 of 770 pages were
+repaired this way.
+
+**2026-08-04 — Labels that wrap across lines are rejoined before matching.**
+A wrapped label had to be rejoined *before* pattern matching, not after, because a
+negative lookahead cannot exclude words it cannot see. "Profit on disposal of" /
+"player registrations 10,732" was matching the generic disposal pattern and leaking
+Arsenal's routine player trading into the tracked intra-group item. Only lines
+starting with a lowercase word count as continuations — that is what stops
+"Amortisation and impairment" from swallowing the "At 1 July 2023" movement row
+beneath it and reporting a £2,023,000 amortisation charge, which it did across six
+filings.
+
+**2026-08-04 — Each value is cross-checked against the next year's filing.**
+Every filing restates the prior year as a comparative, so the same audited figure
+appears in two independent documents. Comparing them catches OCR damage that is
+otherwise invisible: Tottenham's FY2023 revenue reads "$49,633" in its own filing
+and 549,633 in FY2024's comparative column.
+
+Disagreements are reported, never auto-corrected. Either side can be the damaged
+one, and a disagreement can also be a genuine basis change rather than an error —
+which is how the Arsenal wages problem surfaced (below). 20 of the extracted values
+agree with the following year's restatement; 6 disagree and are flagged.
+
+**2026-08-04 — Arsenal's wages basis is inconsistent across years. UNRESOLVED,
+FOR CHECKPOINT A.**
+Arsenal's 2023 and 2025 filings put "Wages and salaries" in a split block with no
+figures on its line, so extraction falls back to "Staff costs" — which includes
+social security and pension costs and is therefore a materially larger number
+(2023: £234.8m staff costs vs £204.6m wages and salaries). 2024 resolves to
+"Wages and salaries". Mixing the two bases across years would make Arsenal's
+wages series meaningless.
+
+Both figures are defensible; what is not defensible is switching between them
+mid-series. VALIDATION.md shows which label each value came from so the basis can
+be made consistent by hand. Flagged rather than silently patched, because choosing
+the basis is an analyst's call.
+
 **2026-08-04 — Costs are normalised to positive magnitudes.**
 Wages and player amortisation are printed bracketed (negative) in the P&L and
 unbracketed in the notes. Storing the signed value as printed would make the same

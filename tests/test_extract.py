@@ -165,3 +165,46 @@ def test_nil_current_year_is_not_replaced_by_the_comparative():
         "profit_and_loss": "Profit on disposal of fixed asset investments 16 - - - 198,749"
     }
     assert find_item("profit_on_disposal", sections, "")["value_gbp"] == 0
+
+
+# -- cross-year comparative check ------------------------------------------
+
+
+def test_cross_check_flags_a_disagreeing_restatement():
+    from src.extract import cross_check
+
+    rows = [
+        {"club": "spurs", "year": "2023", "item": "revenue",
+         "value_gbp": 49_633_000, "comparative_gbp": 443_415_000},
+        {"club": "spurs", "year": "2024", "item": "revenue",
+         "value_gbp": 517_763_000, "comparative_gbp": 549_633_000},
+    ]
+    cross_check(rows)
+    assert rows[0]["cross_check"].startswith("MISMATCH")
+    assert rows[0]["restated_next_year"] == 549_633_000
+    assert rows[0]["confidence"] == "low"
+
+
+def test_cross_check_passes_agreeing_years():
+    from src.extract import cross_check
+
+    rows = [
+        {"club": "c", "year": "2023", "item": "wages",
+         "value_gbp": 352_355_000, "comparative_gbp": 297_569_000},
+        {"club": "c", "year": "2024", "item": "wages",
+         "value_gbp": 294_629_000, "comparative_gbp": 352_355_000},
+    ]
+    cross_check(rows)
+    assert rows[0]["cross_check"].startswith("agrees")
+    assert rows[0]["restated_next_year"] == ""
+
+
+def test_comparative_is_blank_when_the_row_is_ambiguous():
+    """A mangled row must not produce a confident-looking comparative."""
+    from src.extract import pick_comparative
+
+    clean = row_figures("Group turnover 615,206 1,374 616,580 465,228 1,457 466,685", 0)
+    assert pick_comparative(clean, 1_000) == 466_685.0
+
+    truncated = row_figures("Turnover 186,902 - 186,902 172,155 172,155", 0)
+    assert pick_comparative(truncated, 1_000) is None

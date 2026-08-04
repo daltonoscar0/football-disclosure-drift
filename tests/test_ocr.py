@@ -44,14 +44,23 @@ def test_cache_is_stale_when_settings_change(tmp_path):
     from src.util import jdump
 
     path = tmp_path / "2024.json"
-    jdump({"pages": [], "dpi": ocr.DPI, "psm": ocr.PSM}, path)
+    current = {
+        "pages": [],
+        "dpi": ocr.DPI,
+        "psm": ocr.PSM,
+        "method_version": ocr.METHOD_VERSION,
+    }
+    jdump(current, path)
     assert ocr.cache_is_stale(path) is None
 
-    jdump({"pages": [], "dpi": ocr.DPI, "psm": ocr.PSM + 3}, path)
+    jdump({**current, "psm": ocr.PSM + 3}, path)
     assert "psm" in ocr.cache_is_stale(path)
 
-    jdump({"pages": [], "dpi": 72, "psm": ocr.PSM}, path)
+    jdump({**current, "dpi": 72}, path)
     assert "dpi" in ocr.cache_is_stale(path)
+
+    jdump({**current, "method_version": ocr.METHOD_VERSION - 1}, path)
+    assert "method" in ocr.cache_is_stale(path)
 
 
 def test_unreadable_cache_is_stale(tmp_path):

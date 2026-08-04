@@ -47,6 +47,9 @@ _PROFIT_ON_DISPOSAL = (
     r"(?:\s*/\s*\(loss\))?\s+on\s+(?:the\s+)?disposals?"
 )
 _PROFIT_PREFIX = _PROFIT_ON_DISPOSAL + r"\s+of\s+"
+# West Ham labels the routine line "Profit on disposal of players", not "... of player
+# registrations", so excluding only the latter let it into the tracked item.
+_NOT_PLAYERS = r"(?!\s+of\s+(?:the\s+)?players?[’'`]?s?\b)"
 
 # Tier 1 patterns are unambiguous; tier 2 are acceptable fallbacks; a tier-2 hit
 # drops the confidence one notch. Patterns match at the start of a row's label.
@@ -79,7 +82,11 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
             ),
         ),
         (2, re.compile(r"^\s*amortisation\s+of\s+intangible\s+(?:fixed\s+)?assets\b", re.I)),
-        (2, re.compile(r"^\s*amortisation\b(?!\s+(?:policy|method|is\s+))", re.I)),
+        # "Amortisation charged in the year" inside the intangibles note. Deliberately
+        # NOT a bare "^amortisation" — that matched the note's own heading
+        # ("Amortisation and impairment") and read the movement table's "At 1 July
+        # 2023" beneath it as a £2,023,000 figure.
+        (2, re.compile(r"^\s*amortisation\s+(?:charged?|expense)\b", re.I)),
     ],
     # Non-player disposals only — see PLAYERS_DISPOSAL below for why.
     "profit_on_disposal": [
@@ -104,8 +111,7 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         (
             2,
             re.compile(
-                _PROFIT_ON_DISPOSAL
-                + r"(?!\s+of\s+(?:players?[’'`]?s?\s+registrations?|player\s+registrations?))",
+                _PROFIT_ON_DISPOSAL + _NOT_PLAYERS,
                 re.I,
             ),
         ),
@@ -120,11 +126,7 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
 PLAYERS_DISPOSAL = [
     (
         1,
-        re.compile(
-            _PROFIT_PREFIX
-            + r"(?:players?[’'`]?s?\s+registrations?|player\s+registrations?)",
-            re.I,
-        ),
+        re.compile(_PROFIT_PREFIX + r"players?[’'`]?s?(?:\s+registrations?)?\b", re.I),
     ),
     (2, re.compile(r"^\s*profits?\s+(?:arising\s+)?on\s+player\s+(?:sales|trading)\b", re.I)),
 ]
@@ -251,6 +253,21 @@ def clean_figures(
     return figures
 
 
+def pick_comparative(figures: list[tuple[float, str]], multiplier: int) -> float | None:
+    """The prior-year figure on the row.
+
+    In an analysis-column layout the comparative total sits symmetrically: if the
+    current-year total is at index k, the prior-year total is at 2k+1. Otherwise it
+    is simply the second column.
+    """
+    figures = clean_figures(figures, multiplier)
+    if len(figures) < 2:
+        return None
+    total_at = find_total_column(figures)
+    index = 2 * total_at + 1 if total_at is not None else 1
+    return figures[index][0] if index < len(figures) else None
+
+
 def pick_current_year(
     figures: list[tuple[float, str]], multiplier: int
 ) -> tuple[float, str] | None:
@@ -264,6 +281,51 @@ def pick_current_year(
     if total_at is not None:
         return figures[total_at]
     return figures[0]
+
+
+NOTE_REF = re.compile(r"[(\[]?\s*(?:see\s+)?notes?\s+\d{1,2}\s*[)\]]?", re.I)
+LEADING_JUNK = re.compile(r"^[\s\-–—•*·:;|>»_]+")
+
+
+def strip_note_refs(line: str) -> str:
+    """Remove "(note 11)" style cross-references.
+
+    Left in, the reference number is read as the current-year figure:
+    "Amortisation of intangible fixed assets (note 11" became £11,000.
+    """
+    return NOTE_REF.sub(" ", line)
+
+
+def logical_rows(text: str) -> list[str]:
+    """Join labels that wrap across lines back into one row.
+
+    A wrapped label must be rejoined *before* pattern matching, not after, or a
+    negative lookahead cannot see the words it needs to exclude:
+
+        Profit on disposal of
+        player registrations   10,732   ...
+
+    matched the generic disposal pattern, because "player registrations" was on the
+    next line. Only lines beginning with a lowercase word are treated as
+    continuations — that distinguishes a genuine wrap from the next labelled row,
+    which is what stopped "Amortisation and impairment" from swallowing the
+    "At 1 July 2023" movement row beneath it and reporting £2,023,000.
+    """
+    lines = [ln.rstrip() for ln in text.splitlines()]
+    rows: list[str] = []
+    i = 0
+    while i < len(lines):
+        row = lines[i]
+        while (
+            i + 1 < len(lines)
+            and not row_figures(strip_note_refs(row), 0)
+            and re.match(r"\s*[a-z]", lines[i + 1])
+        ):
+            row = f"{row.strip()} {lines[i + 1].strip()}"
+            i += 1
+        rows.append(row)
+        i += 1
+    return rows
 
 
 def find_item(
@@ -282,19 +344,16 @@ def find_item(
         if not text.strip():
             continue
         multiplier, unit_evidence = detect_unit(text, doc_text)
-        lines = text.splitlines()
-        for idx, line in enumerate(lines):
+        for row in logical_rows(text):
+            # OCR prefixes some rows with a bullet or rule fragment ("-Wages and
+            # salaries"), which would defeat the ^-anchored label patterns.
+            row = strip_note_refs(LEADING_JUNK.sub("", row))
             for tier, pattern in patterns:
-                match = pattern.match(line)
+                match = pattern.match(row)
                 if not match:
                     continue
-                figures = row_figures(line, match.end())
-                snippet = line.strip()
-                if not figures and idx + 1 < len(lines):
-                    # Wrapped row: label on one line, figures on the next.
-                    figures = row_figures(lines[idx + 1], 0)
-                    if figures:
-                        snippet = f"{line.strip()} / {lines[idx + 1].strip()}"
+                figures = row_figures(row, match.end())
+                snippet = row.strip()
                 picked = pick_current_year(figures, multiplier)
                 if picked is None:
                     continue
@@ -309,6 +368,11 @@ def find_item(
                     "source_section": section_name,
                     "source_snippet": re.sub(r"\s+", " ", snippet)[:220],
                     "tier": tier,
+                    "comparative_gbp": (
+                        c * multiplier
+                        if (c := pick_comparative(figures, multiplier)) is not None
+                        else None
+                    ),
                     "n_figures_on_row": len(columns),
                     "total_column": find_total_column(columns) is not None,
                 }
@@ -353,6 +417,11 @@ def find_item(
     return {
         "item": best["item"],
         "value_gbp": int(round(value)),
+        "comparative_gbp": (
+            int(round(best["comparative_gbp"]))
+            if best.get("comparative_gbp") is not None
+            else ""
+        ),
         "source_section": best["source_section"],
         "source_snippet": best["source_snippet"],
         "confidence": confidence,
@@ -388,15 +457,19 @@ def run() -> int:
             )
             context.append({"club": parsed["club"], "year": parsed["year"], **players})
 
+    cross_check(rows)
     EXTRACTED.mkdir(parents=True, exist_ok=True)
     fields = [
         "club",
         "year",
         "item",
         "value_gbp",
+        "comparative_gbp",
         "source_section",
         "source_snippet",
         "confidence",
+        "cross_check",
+        "restated_next_year",
         "note",
     ]
     with LINE_ITEMS_CSV.open("w", newline="") as fh:
@@ -413,6 +486,45 @@ def run() -> int:
     print(f"extracted {found}/{len(rows)} values  {by_conf}")
     print(f"wrote {LINE_ITEMS_CSV.relative_to(ROOT)} and {VALIDATION_MD.relative_to(ROOT)}")
     return 0
+
+
+CROSS_CHECK_TOLERANCE = 0.01
+
+
+def cross_check(rows: list[dict]) -> None:
+    """Verify each value against the next year's filing, in place.
+
+    Every filing restates the prior year as a comparative. That restated figure is
+    the same audited number, printed in a different document — so it is an
+    independent check on a value we extracted from elsewhere. Where they disagree
+    the usual cause is OCR damage to one of the two: Tottenham's FY2023 revenue read
+    as "$49,633" where FY2024's comparative column plainly reads 549,633.
+
+    Disagreement is reported, not resolved. Either side can be the damaged one — the
+    comparative column is OCR'd from a scan too — and a disagreement can also mean
+    the two filings were read off different labels ("Wages and salaries" one year,
+    "Staff costs" the next), which is a real basis change rather than an error.
+    Nothing is overwritten; adjudicating is the validator's job.
+    """
+    by_key = {(r["club"], r["year"], r["item"]): r for r in rows}
+    for row in rows:
+        row.setdefault("cross_check", "")
+        row.setdefault("restated_next_year", "")
+    for (club, year, item), row in sorted(by_key.items()):
+        later = by_key.get((club, str(int(year) + 1), item))
+        if later is None or row["value_gbp"] == "" or later.get("comparative_gbp") in ("", None):
+            continue
+        value = float(row["value_gbp"])
+        restated = float(later["comparative_gbp"])
+        scale = max(abs(value), abs(restated), 1.0)
+        if abs(value - restated) / scale <= CROSS_CHECK_TOLERANCE:
+            row["cross_check"] = f"agrees with {year}+1 comparative"
+            continue
+        row["cross_check"] = (
+            f"MISMATCH: {int(year) + 1} filing restates this as {restated:,.0f}"
+        )
+        row["restated_next_year"] = int(round(restated))
+        row["confidence"] = "low"
 
 
 def _fmt(value) -> str:

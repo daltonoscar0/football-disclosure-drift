@@ -1,0 +1,61 @@
+club,year,item,value_gbp,comparative_gbp,source_section,source_snippet,confidence,cross_check,restated_next_year,note
+arsenal,2023,revenue,467155000,372362000,profit_and_loss,"Turnover of the Group including its share of joint ventures 465,698 1,457 467,155 370,384 1,978 372,362",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '467,155' of 6 on row; row has 6 figures, took the computed total column"
+arsenal,2023,wages,234766000,212345000,notes,"Staff costs 234,766 212,345",low,"MISMATCH: 2024 filing restates this as 204,648,000",204648000,"section: £'000; matched tier 2; took figure '234,766' of 2 on row"
+arsenal,2023,player_amortisation,139060000,124567000,notes,"Amortisation of player registrations 139,060 124,567",high,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '139,060' of 2 on row"
+arsenal,2023,profit_on_disposal,,,,,none,,,no matching row found
+arsenal,2024,revenue,617167000,467155000,profit_and_loss,"Turnover of the Group including its share of joint ventures 615,793 1,374 617,167 465,698 1,457 467,155",medium,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '617,167' of 6 on row; row has 6 figures, took the computed total column"
+arsenal,2024,wages,286960000,204648000,notes,"Wages and salaries _ 286,960 204,648",low,"MISMATCH: 2025 filing restates this as 327,822,000",327822000,"section: £'000; matched tier 1; took figure '286,960' of 2 on row"
+arsenal,2024,player_amortisation,171099000,139060000,notes,"Amortisation of player registrations . 171,099 139,060",high,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '171,099' of 2 on row"
+arsenal,2024,profit_on_disposal,,,,,none,,,no matching row found
+arsenal,2025,revenue,692026000,617167000,profit_and_loss,"Turnover of the Group including its share of joint ventures 691,572 454 692,026 615,793 1,374 617,167",medium,,,"section: £'000; matched tier 1; took figure '692,026' of 6 on row; row has 6 figures, took the computed total column"
+arsenal,2025,wages,346804000,327822000,notes,"Staff costs 346,804 327,822",medium,,,"section: £'000; matched tier 2; took figure '346,804' of 2 on row"
+arsenal,2025,player_amortisation,171627000,171099000,notes,"Amortisation of player registrations . 171,627 171,099",high,,,"section: £'000; matched tier 1; took figure '171,627' of 2 on row"
+arsenal,2025,profit_on_disposal,-19000,,notes,Profit on disposal of fixed assets (19),medium,,,section: £'000; matched tier 1; took figure '(19)' of 1 on row
+chelsea,2023,revenue,512467000,,profit_and_loss,"Turnover se 3 512,467 - 512,467 481,278",medium,,,"section: £'000; matched tier 1; took figure '512,467' of 4 on row; row has 4 figures, took the computed total column"
+chelsea,2023,wages,352355000,297569000,notes,"Wages and salaries 352,355 297,569",high,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '352,355' of 2 on row"
+chelsea,2023,player_amortisation,205000000,,notes,"Amortisation charged for the year 1,750 203,250 205,000",medium,,,"section: £'000; matched tier 2; took figure '205,000' of 3 on row; row has 3 figures, took the computed total column"
+chelsea,2023,profit_on_disposal,76524000,,profit_and_loss,"Profit on disposal of fixed assets 76,524 - 76,524 -",medium,,,"section: £'000; matched tier 1; took figure '76,524' of 4 on row; row has 4 figures, took the computed total column"
+chelsea,2024,revenue,468486000,,profit_and_loss,"Turnover 3 468,486 - 468,486 512,467",medium,,,"section: £'000; matched tier 1; took figure '468,486' of 4 on row; row has 4 figures, took the computed total column"
+chelsea,2024,wages,294629000,352355000,notes,"Wages and salaries 294,629 352,355",high,,,"section: £'000; matched tier 1; took figure '294,629' of 2 on row"
+chelsea,2024,player_amortisation,191826000,,notes,"Amortisation charged for the year 1,770 190,056 191,826",medium,,,"section: £'000; matched tier 2; took figure '191,826' of 3 on row; row has 3 figures, took the computed total column"
+chelsea,2024,profit_on_disposal,198749000,,profit_and_loss,"Profit on disposal of fixed assets investments 17 198,749 - 198,749 -",low,MISMATCH: 2025 filing restates this as 0,0,"section: £'000; matched tier 1; took figure '198,749' of 4 on row; row has 4 figures, took the computed total column"
+chelsea,2025,revenue,490857000,,profit_and_loss,"Turnover 3 490,857 - 490,857 468,486",medium,,,"section: £'000; matched tier 1; took figure '490,857' of 4 on row; row has 4 figures, took the computed total column"
+chelsea,2025,wages,,,,,none,,,no matching row found
+chelsea,2025,player_amortisation,213893000,,notes,"Amortisation charged for the year 1,646 212,247 213,893",medium,,,"section: £'000; matched tier 2; took figure '213,893' of 3 on row; row has 3 figures, took the computed total column"
+chelsea,2025,profit_on_disposal,0,0,profit_and_loss,"Profit on disposal of fixed asset investments 16 - - - 198,749",medium,,,"section: £'000; matched tier 1; took figure '-' of 4 on row; row has 4 figures, took the first column"
+everton,2023,revenue,7215000,0,profit_and_loss,"Turnover 2 7215S - 172,A55, 181,007 - 181,007",medium,,,"section: £'000; matched tier 1; took figure '7215' of 6 on row; row has 6 figures, took the first column"
+everton,2023,wages,138394000,141390000,notes,"Wages and salaries 138,394 141,390",high,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '138,394' of 2 on row"
+everton,2023,player_amortisation,77621000,68327000,notes,"Amortisation of players’ registrations 77621 68,327",high,agrees with 2023+1 comparative,,section: £'000; matched tier 1; took figure '77621' of 2 on row
+everton,2023,profit_on_disposal,0,,profit_and_loss,Profit on disposal of tangible . -,low,,,section: £'000; matched tier 2; took figure '-' of 1 on row
+everton,2024,revenue,186902000,,profit_and_loss,"Turnover 186,902 - 186,902 172,155 : 172,155",low,"MISMATCH: 2025 filing restates this as 196,697,000",196697000,"section: £'000; matched tier 1; took figure '186,902' of 5 on row; row has 5 figures, took the computed total column"
+everton,2024,wages,137086000,138394000,notes,"Wages and salaries 137,086 138,394",high,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '137,086' of 2 on row"
+everton,2024,player_amortisation,64581000,77621000,notes,"Amortisation of players’ registrations 64,581 77621",high,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '64,581' of 2 on row"
+everton,2024,profit_on_disposal,0,,profit_and_loss,Profit on disposal of tangible . -,low,,,section: £'000; matched tier 2; took figure '-' of 1 on row
+everton,2025,revenue,196697000,196697000,profit_and_loss,"Turnover 196,697 : + 196,697 » 3186,902 - 186,902",medium,,,"section: £'000; matched tier 1; took figure '196,697' of 6 on row; row has 6 figures, took the first column"
+everton,2025,wages,132430000,137086000,notes,"Wages and salaries 132,430 137,086.",high,,,"section: £'000; matched tier 1; took figure '132,430' of 2 on row"
+everton,2025,player_amortisation,50901000,64581000,notes,"Amortisation of players’ registrations 50,901 64,581",high,,,"section: £'000; matched tier 1; took figure '50,901' of 2 on row"
+everton,2025,profit_on_disposal,0,,profit_and_loss,Profit on disposal of tangible fixed assets 4 - 4 4 4,low,,,section: £'000; matched tier 2; took figure '-' of 1 on row
+tottenham,2023,revenue,49633000,443415000,profit_and_loss,"Revenue 2 $49,633 - $49,633 443,415 - 443,415",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '49,633' of 6 on row; row has 6 figures, took the computed total column"
+tottenham,2023,wages,251121000,209180000,notes,"Staff costs S) 251,121 209,180",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 2; took figure '251,121' of 2 on row"
+tottenham,2023,player_amortisation,109073000,79520000,notes,"Amortisation of intangible fixed assets 109,073 79,520",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 2; took figure '109,073' of 2 on row"
+tottenham,2023,profit_on_disposal,0,,notes,"Profit on disposal of property, plant and equipment (25) -",low,"MISMATCH: 2024 filing restates this as 82,305,000",82305000,section: £'000; matched tier 1; took figure '-' of 1 on row
+tottenham,2024,revenue,517763000,49633000,profit_and_loss,"Revenue 2 517,763 - 517,763 549,633 - $49,633",low,MISMATCH: 2025 filing restates this as 0,0,"section: £'000; matched tier 1; took figure '517,763' of 6 on row; row has 6 figures, took the computed total column"
+tottenham,2024,wages,221929000,251121000,notes,"Staff costs 221,929 251,121",medium,agrees with 2024+1 comparative,,"section: £'000; matched tier 2; took figure '221,929' of 2 on row"
+tottenham,2024,player_amortisation,136287000,109073000,notes,"Amortisation of intangible fixed assets 136,287 109,073",medium,agrees with 2024+1 comparative,,"section: £'000; matched tier 2; took figure '136,287' of 2 on row"
+tottenham,2024,profit_on_disposal,82305000,82305000,profit_and_loss,"Profit on disposal of intangible fixed assets 6 : 82,305 82,305 - 15,510 15,510",medium,agrees with 2024+1 comparative,,"section: £'000; matched tier 2; took figure '82,305' of 5 on row; row has 5 figures, took the first column"
+tottenham,2025,revenue,564881000,0,profit_and_loss,"Revenue 2 564,881 - $64,881 517,763 - 517,763",medium,,,"section: £'000; matched tier 1; took figure '564,881' of 6 on row; row has 6 figures, took the first column"
+tottenham,2025,wages,255811000,221929000,notes,"Staff costs 255,811 221,929",medium,,,"section: £'000; matched tier 2; took figure '255,811' of 2 on row"
+tottenham,2025,player_amortisation,141851000,136287000,notes,"Amortisation of intangible fixed assets 141,851 136,287",medium,,,"section: £'000; matched tier 2; took figure '141,851' of 2 on row"
+tottenham,2025,profit_on_disposal,52565000,82305000,profit_and_loss,"Profit on disposal of intangible fixed assets 6 - 52,565 52,565 - 82,305 82,305",medium,,,"section: £'000; matched tier 2; took figure '52,565' of 6 on row; row has 6 figures, took the computed total column"
+west-ham,2023,revenue,236656000,252720000,profit_and_loss,"Group turnover 3 236,656 - 236,656 252,720 - 252,720",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '236,656' of 6 on row; row has 6 figures, took the computed total column"
+west-ham,2023,wages,118823000,118709000,notes,"Wages and salaries 118,823 118,709",high,agrees with 2023+1 comparative,,"section: £'000; matched tier 1; took figure '118,823' of 2 on row"
+west-ham,2023,player_amortisation,65306000,48825000,notes,"Amortisation of intangible fixed assets 65,306 48,825",medium,agrees with 2023+1 comparative,,"section: £'000; matched tier 2; took figure '65,306' of 2 on row"
+west-ham,2023,profit_on_disposal,,,,,none,,,no matching row found
+west-ham,2024,revenue,269740000,236656000,profit_and_loss,"Group turnover 3 269,740 - 269,740 236,656 - 236,656",medium,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '269,740' of 6 on row; row has 6 figures, took the computed total column"
+west-ham,2024,wages,140747000,118823000,notes,"Wages and salaries 140,747 118,823",high,agrees with 2024+1 comparative,,"section: £'000; matched tier 1; took figure '140,747' of 2 on row"
+west-ham,2024,player_amortisation,83489000,65306000,notes,"Amortisation of intangible fixed assets 83,489 65,306",medium,,,"section: £'000; matched tier 2; took figure '83,489' of 2 on row"
+west-ham,2024,profit_on_disposal,,,,,none,,,no matching row found
+west-ham,2025,revenue,227552000,269740000,profit_and_loss,"Group turnover 3 227,552 - 227,552 269,740 - 269,740",medium,,,"section: £'000; matched tier 1; took figure '227,552' of 6 on row; row has 6 figures, took the computed total column"
+west-ham,2025,wages,152926000,140747000,notes,"Wages and salaries 152,926 140,747",high,,,"section: £'000; matched tier 1; took figure '152,926' of 2 on row"
+west-ham,2025,player_amortisation,103287000,,notes,"Amortisation of intangible fixed assets (99,408) (3,879) (103,287)",medium,,,"section: £'000; matched tier 2; took figure '(103,287)' of 3 on row; row has 3 figures, took the computed total column"
+west-ham,2025,profit_on_disposal,,,,,none,,,no matching row found

@@ -152,7 +152,10 @@ def classify_heading(line: str) -> str | None:
     # Running headers on continuation pages are suffixed "(CONTINUED)". OCR also
     # leaves stray rule-line artefacts ("|", ":") at the end of header lines.
     text = CONTINUED.sub("", text)
-    text = text.strip(" .:-–—|,_")
+    # Strip stray edge characters generally rather than a fixed set: OCR leaves ';',
+    # '|', ':', '.', '*' and similar on header lines, and a single unlisted character
+    # ("GROUP PROFIT AND LOSS ACCOUNT ;") was enough to lose a whole statement.
+    text = re.sub(r"^[^0-9A-Za-z(]+|[^0-9A-Za-z)]+$", "", text)
     if not text:
         return None
     for canonical, pattern in HEADING_PATTERNS:
