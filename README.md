@@ -11,10 +11,15 @@ Results summary is filled in at the end of the project — see `FINDINGS.md`.
 ## Setup
 
 ```
+brew install tesseract          # required: every filing is a scan
 python3.12 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 export COMPANIES_HOUSE_API_KEY=...
 ```
+
+Tesseract is a hard prerequisite, not an optional extra. Companies House serves
+these filings as image-only PDFs with no text layer, so OCR is the only route to
+the text this project measures.
 
 ### Getting an API key
 
@@ -39,6 +44,7 @@ Individual stages:
 
 ```
 make ingest        # resolve entities, download filings to data/raw/
+make ocr           # scanned pages -> text in data/ocr/ (slow, cached)
 make parse         # PDF -> sectioned JSON in data/parsed/
 make check-parse   # per-filing page counts, sections, char counts
 make extract       # four line items per filing -> data/extracted/

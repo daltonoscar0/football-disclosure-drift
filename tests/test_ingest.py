@@ -67,3 +67,23 @@ def test_small_accounts_are_not_downloaded():
 
 def test_year_comes_from_the_made_up_date_not_the_filing_date():
     assert _year_of(_filing("2024-03-01", made_up="2023-06-30")) == "2023"
+
+
+def test_substring_lookalikes_are_rejected():
+    """Loose substring matching pulled in unrelated companies; whole-word or
+    full-phrase matching is required."""
+    chelsea, west_ham = CLUBS[0], CLUBS[3]
+    assert not _plausible({"title": "AGE UK KENSINGTON AND CHELSEA", "company_status": "active"}, chelsea)
+    assert not _plausible({"title": "THE BLUECOAT", "company_status": "active"}, chelsea)
+    assert not _plausible({"title": "BESTWAY WHOLESALE HOLDINGS LIMITED", "company_status": "active"}, west_ham)
+    assert not _plausible({"title": "AMEC FOSTER WHEELER (HOLDINGS) LIMITED", "company_status": "active"}, west_ham)
+
+
+def test_genuine_entities_survive_the_filter():
+    chelsea, arsenal, west_ham = CLUBS[0], CLUBS[1], CLUBS[3]
+    assert _plausible({"title": "CHELSEA FC HOLDINGS LIMITED", "company_status": "active"}, chelsea)
+    assert _plausible({"title": "FORDSTAM LIMITED", "company_status": "active"}, chelsea)
+    assert _plausible({"title": "BLUECO 22 LIMITED", "company_status": "active"}, chelsea)
+    # A leading "The" must not hide the club name.
+    assert _plausible({"title": "THE ARSENAL FOOTBALL CLUB LIMITED", "company_status": "active"}, arsenal)
+    assert _plausible({"title": "WH HOLDING LIMITED", "company_status": "active"}, west_ham)

@@ -46,7 +46,62 @@ one year crowd out an earlier year, so filings are deduplicated by made-up date
 Accounts are filed 6–12 months after the period end. Labelling by filing date
 would misalign clubs against each other and against the disposal events.
 
+## OCR
+
+**2026-08-04 — All 15 filings are image-only scans. OCR added as a pipeline stage.**
+This was not anticipated in the original plan, which assumed a PDF text extractor
+would be enough. It is not: all 15 filings contain exactly one image per page and
+**zero** embedded text characters. pdfplumber returns empty strings for every page
+of every filing. The failure rate is 15/15, well past the "fix the stage rather
+than exclude" threshold, so OCR is mandatory rather than a nice-to-have.
+
+Checked first, and ruled out: the Companies House document API exposes only
+`application/pdf` for these filings — there is no iXBRL or XHTML alternative to
+fall back on, which there would be for a smaller company's accounts.
+
+Choices made:
+
+- *Rasteriser: pypdfium2 at 200 DPI.* Character yield at 200 DPI is identical to
+  300 DPI on these scans (4,175 chars/page on the test page either way) and it
+  renders faster. pypdfium2 is already present as a pdfplumber dependency, so this
+  adds no new install.
+- *Engine: the `tesseract` CLI, called directly.* Invoking the binary via
+  `subprocess` avoids adding `pytesseract` for what amounts to one command line.
+  Tesseract itself is a new **system** prerequisite (`brew install tesseract`), now
+  documented in the README. This is a real widening of the dependency surface and
+  is justified only because there is no text without it.
+- *`--psm 6` ("uniform block of text").* The default fully-automatic page
+  segmentation treats P&L columns as separate blocks and interleaves them, which
+  destroys row structure. psm 6 keeps a label and its figures on one output line,
+  which is exactly what the extractor's row regexes need.
+- *`OMP_THREAD_LIMIT=1` per worker.* Each Tesseract process otherwise spawns its
+  own thread pool; with a process pool on top, the workers oversubscribe the CPU
+  and the batch runs slower than with the limit set.
+
+Cost: ~770 pages at ~8.6 s/page. Cached per filing in `data/ocr/<club>/<year>.json`
+so it is paid once; `data/ocr/` is gitignored alongside `data/raw/`.
+
+**2026-08-04 — pypdfium2 also rescues two filings pdfminer cannot open.**
+`chelsea/2023.pdf` and `tottenham/2025.pdf` raise `Unexpected EOF` in pdfminer.
+Both files are complete (they end in a valid `%%EOF`); the xref tables are simply
+malformed in a way pdfminer refuses and pdfium tolerates. pypdfium2 opens both and
+reports 50 and 65 pages respectively. Had OCR not been necessary anyway, these two
+would have been the ≤2 "degrade gracefully" exclusions; instead the new rasteriser
+fixes them for free.
+
+**2026-08-04 — DocuSign banners are stripped before scoring.**
+The scans are e-signed, so every page carries an identical
+`Docusign Envelope ID: ...` line. Left in, it would repeat once per page and
+inflate year-over-year similarity — a systematic bias against detecting drift.
+Stripped at parse time.
+
 ## Parsing
+
+**2026-08-04 — Running headers are the section signal, and carry "(CONTINUED)".**
+These filings repeat the section name at the top of every page
+("NOTES TO THE FINANCIAL STATEMENTS (CONTINUED)"). Heading matching therefore
+strips a trailing "(continued)" and OCR rule-line artefacts (`|`, `:`) before
+testing the pattern. Segment merging (below) makes the repetition harmless.
 
 **2026-08-04 — Heading detection over sequential assignment, not page ranges.**
 UK statutory accounts have a stable running order, so each detected heading opens a

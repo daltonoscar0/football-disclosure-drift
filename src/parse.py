@@ -28,6 +28,7 @@ from pathlib import Path
 
 import pdfplumber
 
+from . import ocr
 from .util import ROOT, has_parsed_filings, jdump, jload
 
 RAW = ROOT / "data" / "raw"
@@ -126,6 +127,7 @@ REQUIRED_SECTIONS = ("strategic_report", "directors_report", "profit_and_loss", 
 
 DOT_LEADER = re.compile(r"\.{3,}|\s\.\s\.\s")
 TRAILING_PAGE_NO = re.compile(r"\s\d{1,3}$")
+CONTINUED = re.compile(r"[\s(\[]*\bcontinued\b[)\]\s]*$", re.I)
 COMBINED_SR_DR = HEADING_PATTERNS[0][1]
 
 COMMON_WORDS = frozenset(
@@ -143,7 +145,11 @@ def classify_heading(line: str) -> str | None:
         return None
     # Strip leading numbering ("1.", "2 ") and trailing page numbers.
     text = re.sub(r"^\d{1,2}[.)]?\s+", "", text)
-    text = TRAILING_PAGE_NO.sub("", text).strip(" .:-–—")
+    text = TRAILING_PAGE_NO.sub("", text)
+    # Running headers on continuation pages are suffixed "(CONTINUED)". OCR also
+    # leaves stray rule-line artefacts ("|", ":") at the end of header lines.
+    text = CONTINUED.sub("", text)
+    text = text.strip(" .:-–—|,_")
     if not text:
         return None
     for canonical, pattern in HEADING_PATTERNS:
@@ -167,16 +173,42 @@ def text_quality(text: str) -> dict:
     }
 
 
-def extract_pages(pdf_path: Path) -> list[str]:
+def extract_pages(pdf_path: Path, club: str | None = None, year: str | None = None):
+    """Page text plus its provenance.
+
+    Prefers cached OCR output when it exists, because every Companies House filing
+    in this study is an image-only scan. Falls back to the PDF's own text layer for
+    native-text filings (and for the test fixture). Returns (pages, source).
+    """
+    if club and year:
+        ocr_pages = ocr.load_pages(club, year)
+        if ocr_pages is not None:
+            return [_strip_noise(p) for p in ocr_pages], "ocr"
+
     pages: list[str] = []
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            try:
-                text = page.extract_text(x_tolerance=1.5) or ""
-            except Exception:  # pragma: no cover - malformed page
-                text = ""
-            pages.append(text)
-    return pages
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                try:
+                    text = page.extract_text(x_tolerance=1.5) or ""
+                except Exception:  # pragma: no cover - malformed page
+                    text = ""
+                pages.append(text)
+    except Exception:
+        # Two filings have xref tables pdfminer rejects. Nothing to fall back to
+        # here beyond an empty result; the OCR stage handles them via pypdfium2.
+        return [], "unreadable"
+    return pages, "text_layer"
+
+
+# The scans are e-signed, so every page carries a DocuSign envelope banner. It is
+# identical on all pages of a filing and would otherwise inflate similarity between
+# consecutive years.
+DOCUSIGN = re.compile(r"^\s*Docusign\s+Envelope\s+ID:.*$", re.I | re.M)
+
+
+def _strip_noise(text: str) -> str:
+    return DOCUSIGN.sub("", text)
 
 
 def _heading_dense_pages(pages: list[str]) -> set[int]:
@@ -231,8 +263,8 @@ def segment(pages: list[str]) -> tuple[dict[str, str], dict]:
     return sections, meta
 
 
-def parse_filing(pdf_path: Path) -> dict:
-    pages = extract_pages(pdf_path)
+def parse_filing(pdf_path: Path, club: str | None = None, year: str | None = None) -> dict:
+    pages, source = extract_pages(pdf_path, club, year)
     sections, meta = segment(pages)
 
     per_page = [text_quality(t) for t in pages]
@@ -255,6 +287,7 @@ def parse_filing(pdf_path: Path) -> dict:
 
     return {
         "pages": len(pages),
+        "text_source": source,
         "total_words": total_words,
         "common_word_ratio": round(common_ratio, 4),
         "flags": flags,
@@ -284,14 +317,14 @@ def run(force: bool = False) -> list[dict]:
             results.append(jload(out_path))
             print(f"{club} {year}: already parsed")
             continue
-        parsed = parse_filing(pdf_path)
+        parsed = parse_filing(pdf_path, club, year)
         parsed["club"] = club
         parsed["year"] = year
         parsed["company_number"] = record.get("company_number")
         jdump(parsed, out_path)
         results.append(parsed)
         print(
-            f"{club} {year}: {parsed['pages']} pages, "
+            f"{club} {year}: {parsed['pages']} pages ({parsed['text_source']}), "
             f"{len(parsed['meta']['sections_detected'])} sections"
             + (f", flags={parsed['flags']}" if parsed["flags"] else "")
         )

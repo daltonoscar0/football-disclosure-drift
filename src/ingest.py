@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -86,12 +87,28 @@ NAME_NOISE = (
 
 
 def _plausible(item: dict, club: dict) -> bool:
+    """Cheap name/status filter, applied before any filing history is fetched.
+
+    Substring matching is far too loose here: "wh" hits BESTWAY WHOLESALE, "blueco"
+    hits THE BLUECOAT, and "chelsea" hits AGE UK KENSINGTON AND CHELSEA. A candidate
+    must either *begin* with a query's leading word (ignoring a leading "The") or
+    contain a full query phrase.
+    """
     title = (item.get("title") or "").lower()
     if any(noise in title for noise in NAME_NOISE):
         return False
     if item.get("company_status") == "dissolved":
         return False
-    return any(q.split()[0].lower() in title for q in club["queries"])
+
+    stripped = re.sub(r"^the\s+", "", title)
+    first_word = re.split(r"[\s,.]+", stripped, maxsplit=1)[0]
+    for query in club["queries"]:
+        q = query.lower()
+        if first_word == q.split()[0]:
+            return True
+        if q in title:
+            return True
+    return False
 
 
 def _accounts_summary(filings: list[dict]) -> dict:

@@ -1,11 +1,16 @@
 PY := .venv/bin/python
 
-.PHONY: pipeline ingest parse check-parse extract score report test clean-derived
+.PHONY: pipeline ingest ocr parse check-parse extract score report test clean-derived
 
-pipeline: ingest parse extract score report
+pipeline: ingest ocr parse extract score report
 
 ingest:
 	$(PY) -m src.ingest
+
+# Every filing is an image-only scan, so text comes from OCR. Expensive but cached
+# per filing under data/ocr/ — a second run is a no-op.
+ocr:
+	$(PY) -m src.ocr
 
 parse:
 	$(PY) -m src.parse
@@ -25,6 +30,7 @@ report:
 test:
 	.venv/bin/pytest -q tests
 
-# Removes everything derived. Leaves data/raw/ (the expensive, cached part) alone.
+# Removes everything derived. Leaves data/raw/ and data/ocr/ — the two expensive,
+# cached stages — alone.
 clean-derived:
 	rm -rf data/parsed/* data/extracted/* data/scores/*

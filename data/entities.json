@@ -1,0 +1,1610 @@
+{
+  "clubs": {
+    "arsenal": {
+      "candidates": [
+        {
+          "accounts_filings": 24,
+          "best_rank": 0,
+          "company_number": "04250459",
+          "company_status": "active",
+          "date_of_creation": "2001-07-11",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "ARSENAL HOLDINGS LIMITED"
+        },
+        {
+          "accounts_filings": 40,
+          "best_rank": 1,
+          "company_number": "00109244",
+          "company_status": "active",
+          "date_of_creation": "1910-04-26",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "THE ARSENAL FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 25,
+          "best_rank": 1,
+          "company_number": "04106698",
+          "company_status": "active",
+          "date_of_creation": "2000-11-13",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ARSENAL (EMIRATES STADIUM) LIMITED"
+        },
+        {
+          "accounts_filings": 30,
+          "best_rank": 1,
+          "company_number": "03013967",
+          "company_status": "active",
+          "date_of_creation": "1995-01-25",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 4,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ARSENAL WOMEN FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 25,
+          "best_rank": 1,
+          "company_number": "04053669",
+          "company_status": "active",
+          "date_of_creation": "2000-08-16",
+          "latest_date": "2026-03-13",
+          "n_usable_recent": 3,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ARSENAL BROADBAND LIMITED"
+        },
+        {
+          "accounts_filings": 19,
+          "best_rank": 1,
+          "company_number": "05659803",
+          "company_status": "active",
+          "date_of_creation": "2005-12-21",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 2,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small"
+          ],
+          "title": "ARSENAL (AFC HOLDINGS) LIMITED"
+        },
+        {
+          "accounts_filings": 21,
+          "best_rank": 1,
+          "company_number": "04987886",
+          "company_status": "active",
+          "date_of_creation": "2003-12-08",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ARSENAL STADIUM MANAGEMENT HOLDINGS LIMITED"
+        },
+        {
+          "accounts_filings": 13,
+          "best_rank": 1,
+          "company_number": "08248196",
+          "company_status": "active",
+          "date_of_creation": "2012-10-10",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ARSENAL OVERSEAS HOLDINGS LTD"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "16637223",
+          "company_status": "active",
+          "date_of_creation": "2025-08-08",
+          "latest_date": "2026-06-18",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "ARSENAL EXPRESS LTD"
+        },
+        {
+          "accounts_filings": 10,
+          "best_rank": 5,
+          "company_number": "08030408",
+          "company_status": "active",
+          "date_of_creation": "2012-04-13",
+          "latest_date": "2026-01-31",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "ARSENAL DRYCLEANERS LIMITED"
+        },
+        {
+          "accounts_filings": 3,
+          "best_rank": 5,
+          "company_number": "11716335",
+          "company_status": "active",
+          "date_of_creation": "2018-12-07",
+          "latest_date": "2025-05-23",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "ARSENAL BARBERS LTD"
+        },
+        {
+          "accounts_filings": 19,
+          "best_rank": 6,
+          "company_number": "05837469",
+          "company_status": "active",
+          "date_of_creation": "2006-06-05",
+          "latest_date": "2026-03-30",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "ARSENAL LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 6,
+          "company_number": "15482046",
+          "company_status": "active",
+          "date_of_creation": "2024-02-11",
+          "latest_date": "2025-11-30",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "ARSENAL BREWERY LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16613042",
+          "company_status": "active",
+          "date_of_creation": "2025-07-29",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "ARSENAL CARDS LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "IP030984",
+          "company_status": "converted-closed",
+          "date_of_creation": null,
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "ARSENAL FANSHARE SOCIETY LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "OE021680",
+          "company_status": "registered",
+          "date_of_creation": "2023-02-01",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "ARSENAL LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "SL022594",
+          "company_status": "active",
+          "date_of_creation": "2015-09-18",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "ARSENAL BAY LP"
+        }
+      ],
+      "chosen": "04250459",
+      "name": "Arsenal"
+    },
+    "chelsea": {
+      "candidates": [
+        {
+          "accounts_filings": 29,
+          "best_rank": 0,
+          "company_number": "02536231",
+          "company_status": "active",
+          "date_of_creation": "1990-09-03",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "CHELSEA FC HOLDINGS LIMITED"
+        },
+        {
+          "accounts_filings": 20,
+          "best_rank": 0,
+          "company_number": "04784127",
+          "company_status": "active",
+          "date_of_creation": "2003-06-02",
+          "latest_date": "2026-03-10",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "FORDSTAM LIMITED"
+        },
+        {
+          "accounts_filings": 3,
+          "best_rank": 0,
+          "company_number": "13949552",
+          "company_status": "active",
+          "date_of_creation": "2022-03-02",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 3,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "BLUECO 22 LIMITED"
+        },
+        {
+          "accounts_filings": 37,
+          "best_rank": 1,
+          "company_number": "01965149",
+          "company_status": "active",
+          "date_of_creation": "1985-11-26",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "CHELSEA FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 32,
+          "best_rank": 1,
+          "company_number": "02779831",
+          "company_status": "active",
+          "date_of_creation": "1993-01-15",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "CHELSEA FC MERCHANDISING LIMITED"
+        },
+        {
+          "accounts_filings": 26,
+          "best_rank": 1,
+          "company_number": "03196199",
+          "company_status": "active",
+          "date_of_creation": "1996-05-09",
+          "latest_date": "2023-03-27",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "BLUECO LIMITED"
+        },
+        {
+          "accounts_filings": 13,
+          "best_rank": 1,
+          "company_number": "08482665",
+          "company_status": "active",
+          "date_of_creation": "2013-04-10",
+          "latest_date": "2026-07-30",
+          "n_usable_recent": 2,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small"
+          ],
+          "title": "CHELSEA ARTS CLUB TRADING LIMITED"
+        },
+        {
+          "accounts_filings": 11,
+          "best_rank": 1,
+          "company_number": "07377729",
+          "company_status": "active",
+          "date_of_creation": "2010-09-16",
+          "latest_date": "2026-04-13",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small"
+          ],
+          "title": "CHELSEA FOOTBALL CLUB WOMEN LTD"
+        },
+        {
+          "accounts_filings": 19,
+          "best_rank": 1,
+          "company_number": "02124272",
+          "company_status": "active",
+          "date_of_creation": "1987-04-21",
+          "latest_date": "2025-11-06",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small"
+          ],
+          "title": "CHELSEA ARTS CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 15,
+          "best_rank": 4,
+          "company_number": "06937264",
+          "company_status": "active",
+          "date_of_creation": "2009-06-18",
+          "latest_date": "2026-03-26",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "CHELSEA LIMITED"
+        },
+        {
+          "accounts_filings": 5,
+          "best_rank": 4,
+          "company_number": "12695416",
+          "company_status": "active",
+          "date_of_creation": "2020-06-24",
+          "latest_date": "2025-12-01",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "CHELSEA AND WESTMINSTER SWIMMING CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 38,
+          "best_rank": 4,
+          "company_number": "00874458",
+          "company_status": "active",
+          "date_of_creation": "1966-03-21",
+          "latest_date": "2025-11-12",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "CHELSEA ARTS BALL AND CHELSEA ARTS CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 4,
+          "company_number": "12240318",
+          "company_status": "active",
+          "date_of_creation": "2019-10-02",
+          "latest_date": "2023-01-27",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "CHELSEA CLUBS LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "15864088",
+          "company_status": "active",
+          "date_of_creation": "2024-07-29",
+          "latest_date": "2026-07-21",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA ROVERS FOOTBALL CLUB LTD"
+        },
+        {
+          "accounts_filings": 10,
+          "best_rank": 5,
+          "company_number": "09849149",
+          "company_status": "active",
+          "date_of_creation": "2015-10-30",
+          "latest_date": "2026-04-08",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA FITNESS CLUB LTD"
+        },
+        {
+          "accounts_filings": 4,
+          "best_rank": 5,
+          "company_number": "13387169",
+          "company_status": "active",
+          "date_of_creation": "2021-05-11",
+          "latest_date": "2026-02-08",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "CHELSEA WATCH CLUB LTD"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 5,
+          "company_number": "05315425",
+          "company_status": "active",
+          "date_of_creation": "2004-12-17",
+          "latest_date": "2025-12-31",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA ARABIC SCHOOL & CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "15515682",
+          "company_status": "active",
+          "date_of_creation": "2024-02-23",
+          "latest_date": "2025-12-18",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA CAR CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "15956157",
+          "company_status": "active",
+          "date_of_creation": "2024-09-13",
+          "latest_date": "2025-12-16",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA TRACTORS CLUB LTD"
+        },
+        {
+          "accounts_filings": 8,
+          "best_rank": 5,
+          "company_number": "10982108",
+          "company_status": "active",
+          "date_of_creation": "2017-09-26",
+          "latest_date": "2025-12-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "CHELSEA HANDBALL CLUB COMMUNITY INTEREST COMPANY"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 5,
+          "company_number": "05730931",
+          "company_status": "active",
+          "date_of_creation": "2006-03-06",
+          "latest_date": "2025-11-25",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "FORDSTAM CONSULTANCY LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "15602161",
+          "company_status": "active",
+          "date_of_creation": "2024-03-29",
+          "latest_date": "2025-10-20",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "BLUECO AGENCY LTD"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 6,
+          "company_number": "15250098",
+          "company_status": "active",
+          "date_of_creation": "2023-10-31",
+          "latest_date": "2026-03-26",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "BLUECO 22 RESIDENTIAL LIMITED"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 6,
+          "company_number": "11305710",
+          "company_status": "active",
+          "date_of_creation": "2018-04-12",
+          "latest_date": "2025-12-10",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "FORDSTAM DEVELOPMENTS LIMITED"
+        },
+        {
+          "accounts_filings": 3,
+          "best_rank": 6,
+          "company_number": "13914710",
+          "company_status": "active",
+          "date_of_creation": "2022-02-14",
+          "latest_date": "2025-06-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "CHELSEA GOLF CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "14213798",
+          "company_status": "active",
+          "date_of_creation": "2022-07-04",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUECO 22 MIDCO LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "14304080",
+          "company_status": "active",
+          "date_of_creation": "2022-08-18",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUECO 22 PROPERTIES LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16519343",
+          "company_status": "active",
+          "date_of_creation": "2025-06-16",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "CHELSEA MUSIC CLUB LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "17328590",
+          "company_status": "active",
+          "date_of_creation": "2026-07-08",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "THE CHELSEA COFFEE CLUB LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "LP022606",
+          "company_status": "active",
+          "date_of_creation": "2022-05-23",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUECO 22 HOLDINGS L.P."
+        }
+      ],
+      "chosen": "02536231",
+      "name": "Chelsea"
+    },
+    "everton": {
+      "candidates": [
+        {
+          "accounts_filings": 39,
+          "best_rank": 0,
+          "company_number": "00036624",
+          "company_status": "active",
+          "date_of_creation": "1892-06-14",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "EVERTON FOOTBALL CLUB COMPANY, LIMITED"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 0,
+          "company_number": "11727444",
+          "company_status": "active",
+          "date_of_creation": "2018-12-14",
+          "latest_date": "2026-04-12",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "EVERTON STADIUM DEVELOPMENT HOLDING COMPANY LIMITED"
+        },
+        {
+          "accounts_filings": 15,
+          "best_rank": 3,
+          "company_number": "07335143",
+          "company_status": "active",
+          "date_of_creation": "2010-08-04",
+          "latest_date": "2026-04-11",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small"
+          ],
+          "title": "EVERTON FOOTBALL CLUB WOMEN LIMITED"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 4,
+          "company_number": "05100252",
+          "company_status": "active",
+          "date_of_creation": "2004-04-13",
+          "latest_date": "2026-06-26",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "EVERTON CONSTRUCTION SERVICES LIMITED"
+        },
+        {
+          "accounts_filings": 4,
+          "best_rank": 4,
+          "company_number": "13421622",
+          "company_status": "active",
+          "date_of_creation": "2021-05-26",
+          "latest_date": "2026-05-28",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "EVERTON PARK GYMNASTICS CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 8,
+          "best_rank": 4,
+          "company_number": "10868197",
+          "company_status": "active",
+          "date_of_creation": "2017-07-17",
+          "latest_date": "2026-04-30",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "EVERTON & PARKER LTD"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 4,
+          "company_number": "10808604",
+          "company_status": "active",
+          "date_of_creation": "2017-06-08",
+          "latest_date": "2026-03-09",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "EVERTON KIDS CLUB LTD"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 4,
+          "company_number": "07982751",
+          "company_status": "active",
+          "date_of_creation": "2012-03-08",
+          "latest_date": "2025-07-04",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "BLUE HEAVEN ENTERPRISES LIMITED"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 4,
+          "company_number": "04876026",
+          "company_status": "active",
+          "date_of_creation": "2003-08-22",
+          "latest_date": "2019-05-13",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "EVERTON AIRCRAFT SERVICES LIMITED"
+        },
+        {
+          "accounts_filings": 17,
+          "best_rank": 5,
+          "company_number": "06604525",
+          "company_status": "active",
+          "date_of_creation": "2008-05-28",
+          "latest_date": "2026-07-21",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "EVERTON BROOK LTD"
+        },
+        {
+          "accounts_filings": 24,
+          "best_rank": 5,
+          "company_number": "01331963",
+          "company_status": "active",
+          "date_of_creation": "1977-09-29",
+          "latest_date": "2026-05-26",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "EVERTON BROS. (POULTRY) LIMITED"
+        },
+        {
+          "accounts_filings": 1,
+          "best_rank": 5,
+          "company_number": "15782889",
+          "company_status": "active",
+          "date_of_creation": "2024-06-16",
+          "latest_date": "2026-05-14",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "BLUE HEAVEN GROUP LIMITED"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 5,
+          "company_number": "14977326",
+          "company_status": "active",
+          "date_of_creation": "2023-07-03",
+          "latest_date": "2026-04-15",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "EVERTON AGACE LIMITED"
+        },
+        {
+          "accounts_filings": 8,
+          "best_rank": 5,
+          "company_number": "10717620",
+          "company_status": "active",
+          "date_of_creation": "2017-04-08",
+          "latest_date": "2026-01-28",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "BLUE HEAVEN LIMITED"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 5,
+          "company_number": "12009768",
+          "company_status": "active",
+          "date_of_creation": "2019-05-21",
+          "latest_date": "2022-02-24",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "EVERTON COOK LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "12022335",
+          "company_status": "active",
+          "date_of_creation": "2019-05-29",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUE HEAVEN DESSERTS LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "14298838",
+          "company_status": "active",
+          "date_of_creation": "2022-08-16",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON CONSULTANCY LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16399283",
+          "company_status": "active",
+          "date_of_creation": "2025-04-22",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUE HEAVEN ENTERTAINMENT LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16670070",
+          "company_status": "active",
+          "date_of_creation": "2025-08-25",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUE HEAVEN REAL ESTATE LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16775559",
+          "company_status": "active",
+          "date_of_creation": "2025-10-09",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "17144679",
+          "company_status": "active",
+          "date_of_creation": "2026-04-08",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON BUILDERS LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "17234336",
+          "company_status": "active",
+          "date_of_creation": "2026-05-21",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON BROW 2026 LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "17240689",
+          "company_status": "active",
+          "date_of_creation": "2026-05-25",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUE HEAVEN SOLUTIONS LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "17262947",
+          "company_status": "active",
+          "date_of_creation": "2026-06-05",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "BLUE HEAVEN BAR & GRILL LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "CE003571",
+          "company_status": null,
+          "date_of_creation": null,
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON AND ANFIELD TOGETHER"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "IP24565R",
+          "company_status": "active",
+          "date_of_creation": null,
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "EVERTON AND LYMORE SOCIAL CLUB LIMITED"
+        }
+      ],
+      "chosen": "00036624",
+      "name": "Everton"
+    },
+    "tottenham": {
+      "candidates": [
+        {
+          "accounts_filings": 27,
+          "best_rank": 0,
+          "company_number": "01706358",
+          "company_status": "active",
+          "date_of_creation": "1983-03-14",
+          "latest_date": "2026-04-09",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "TOTTENHAM HOTSPUR LIMITED"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 0,
+          "company_number": "11096797",
+          "company_status": "active",
+          "date_of_creation": "2017-12-05",
+          "latest_date": "2025-12-16",
+          "n_usable_recent": 3,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "THFC GROUP LIMITED"
+        },
+        {
+          "accounts_filings": 22,
+          "best_rank": 0,
+          "company_number": "04558176",
+          "company_status": "active",
+          "date_of_creation": "2002-10-09",
+          "latest_date": "2025-09-25",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "ENIC LIMITED"
+        },
+        {
+          "accounts_filings": 35,
+          "best_rank": 1,
+          "company_number": "00057186",
+          "company_status": "active",
+          "date_of_creation": "1898-05-03",
+          "latest_date": "2026-04-09",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR FOOTBALL & ATHLETIC CO. LTD"
+        },
+        {
+          "accounts_filings": 18,
+          "best_rank": 1,
+          "company_number": "06279984",
+          "company_status": "active",
+          "date_of_creation": "2007-06-14",
+          "latest_date": "2026-04-09",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR FOOTBALL CO LIMITED"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 1,
+          "company_number": "10151725",
+          "company_status": "active",
+          "date_of_creation": "2016-04-27",
+          "latest_date": "2026-04-09",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR STADIUM LIMITED"
+        },
+        {
+          "accounts_filings": 16,
+          "best_rank": 1,
+          "company_number": "06279820",
+          "company_status": "active",
+          "date_of_creation": "2007-06-14",
+          "latest_date": "2024-03-20",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR PROPERTY CO. LIMITED"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 1,
+          "company_number": "10148712",
+          "company_status": "active",
+          "date_of_creation": "2016-04-26",
+          "latest_date": "2024-03-20",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR STADIUM DEVELOPMENT LIMITED"
+        },
+        {
+          "accounts_filings": 7,
+          "best_rank": 1,
+          "company_number": "10863537",
+          "company_status": "active",
+          "date_of_creation": "2017-07-12",
+          "latest_date": "2026-04-10",
+          "n_usable_recent": 4,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "TOTTENHAM HOTSPUR WOMEN FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 16,
+          "best_rank": 1,
+          "company_number": "06008477",
+          "company_status": "active",
+          "date_of_creation": "2006-11-24",
+          "latest_date": "2025-11-14",
+          "n_usable_recent": 2,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-small",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "THFC 59 LIMITED"
+        },
+        {
+          "accounts_filings": 3,
+          "best_rank": 1,
+          "company_number": "13009818",
+          "company_status": "active",
+          "date_of_creation": "2020-11-11",
+          "latest_date": "2024-03-20",
+          "n_usable_recent": 2,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "TOTTENHAM HOTSPUR HOTEL LTD"
+        },
+        {
+          "accounts_filings": 29,
+          "best_rank": 1,
+          "company_number": "00164062",
+          "company_status": "active",
+          "date_of_creation": "1920-02-14",
+          "latest_date": "2025-09-25",
+          "n_usable_recent": 1,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "ENIC GROUP"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 4,
+          "company_number": "08716846",
+          "company_status": "active",
+          "date_of_creation": "2013-10-03",
+          "latest_date": "2026-07-14",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-micro-entity"
+          ],
+          "title": "ENIC MEDICALS LTD"
+        },
+        {
+          "accounts_filings": 3,
+          "best_rank": 4,
+          "company_number": "14364903",
+          "company_status": "active",
+          "date_of_creation": "2022-09-20",
+          "latest_date": "2025-12-12",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "THFC ESTATES LIMITED"
+        },
+        {
+          "accounts_filings": 5,
+          "best_rank": 5,
+          "company_number": "12916263",
+          "company_status": "active",
+          "date_of_creation": "2020-09-30",
+          "latest_date": "2026-06-30",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-micro-entity",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "THFC CLOTHING COMPANY LTD"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 6,
+          "company_number": "10443734",
+          "company_status": "active",
+          "date_of_creation": "2016-10-25",
+          "latest_date": "2026-03-23",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "TOTTENHAM HOTSPUR FOOTBALL CLUB HOLDINGS LIMITED"
+        },
+        {
+          "accounts_filings": 5,
+          "best_rank": 6,
+          "company_number": "13009782",
+          "company_status": "active",
+          "date_of_creation": "2020-11-11",
+          "latest_date": "2026-03-23",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "TOTTENHAM HOTSPUR LEISURE LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16450374",
+          "company_status": "active",
+          "date_of_creation": "2025-05-14",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "ENIC OLLES LTD"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "IP27161R",
+          "company_status": "converted-closed",
+          "date_of_creation": null,
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "THFC INDEXED LIMITED"
+        }
+      ],
+      "chosen": "01706358",
+      "name": "Tottenham Hotspur"
+    },
+    "west-ham": {
+      "candidates": [
+        {
+          "accounts_filings": 19,
+          "best_rank": 0,
+          "company_number": "05993863",
+          "company_status": "active",
+          "date_of_creation": "2006-11-09",
+          "latest_date": "2026-02-27",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group",
+            "accounts-with-accounts-type-group"
+          ],
+          "title": "WH HOLDING LIMITED"
+        },
+        {
+          "accounts_filings": 32,
+          "best_rank": 1,
+          "company_number": "00066516",
+          "company_status": "active",
+          "date_of_creation": "1900-07-05",
+          "latest_date": "2026-03-02",
+          "n_usable_recent": 6,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full",
+            "accounts-with-accounts-type-full"
+          ],
+          "title": "WEST HAM UNITED FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 9,
+          "best_rank": 4,
+          "company_number": "10374966",
+          "company_status": "active",
+          "date_of_creation": "2016-09-14",
+          "latest_date": "2025-11-27",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "A. S. D. WH HOLDINGS LIMITED"
+        },
+        {
+          "accounts_filings": 2,
+          "best_rank": 4,
+          "company_number": "11055894",
+          "company_status": "active",
+          "date_of_creation": "2017-11-09",
+          "latest_date": "2020-02-10",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-total-exemption-full",
+            "accounts-with-accounts-type-total-exemption-full"
+          ],
+          "title": "WEST HAM UNITED WOMEN FOOTBALL CLUB LIMITED"
+        },
+        {
+          "accounts_filings": 28,
+          "best_rank": 6,
+          "company_number": "03380294",
+          "company_status": "active",
+          "date_of_creation": "1997-06-03",
+          "latest_date": "2026-03-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "WEST HAM UNITED SPORTSWEAR LIMITED"
+        },
+        {
+          "accounts_filings": 25,
+          "best_rank": 6,
+          "company_number": "03407691",
+          "company_status": "active",
+          "date_of_creation": "1997-07-23",
+          "latest_date": "2026-03-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "WEST HAM UNITED LIMITED"
+        },
+        {
+          "accounts_filings": 26,
+          "best_rank": 6,
+          "company_number": "03775950",
+          "company_status": "active",
+          "date_of_creation": "1999-05-24",
+          "latest_date": "2026-03-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "WEST HAM UNITED HOSPITALITY LIMITED"
+        },
+        {
+          "accounts_filings": 19,
+          "best_rank": 6,
+          "company_number": "05987618",
+          "company_status": "active",
+          "date_of_creation": "2006-11-03",
+          "latest_date": "2026-03-02",
+          "n_usable_recent": 0,
+          "recent_descriptions": [
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant",
+            "accounts-with-accounts-type-dormant"
+          ],
+          "title": "WEST HAM UNITED FC LIMITED"
+        },
+        {
+          "accounts_filings": 0,
+          "best_rank": 7,
+          "company_number": "16704348",
+          "company_status": "active",
+          "date_of_creation": "2025-09-09",
+          "latest_date": null,
+          "n_usable_recent": 0,
+          "recent_descriptions": [],
+          "title": "WEST ALLOTMENT CELTIC FOOTBALL CLUB LTD"
+        }
+      ],
+      "chosen": "05993863",
+      "name": "West Ham United"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "club": "arsenal",
+  "common_word_ratio": 0.0,
+  "company_number": "04250459",
+  "flags": [
+    "empty_text_layer",
+    "missing_section:strategic_report",
+    "missing_section:directors_report",
+    "missing_section:profit_and_loss",
+    "missing_section:notes",
+    "short_strategic_report"
+  ],
+  "meta": {
+    "combined_strategic_and_directors_report": false,
+    "contents_pages_skipped": [],
+    "heading_hits": [],
+    "sections_detected": []
+  },
+  "pages": 45,
+  "section_chars": {},
+  "sections": {},
+  "total_words": 0,
+  "year": "2025"
+}
