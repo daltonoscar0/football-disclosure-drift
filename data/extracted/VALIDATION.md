@@ -69,7 +69,7 @@ _Context — profit on disposal of **player registrations**. Not one of the four
 
 | year | item | value | conf | cross-check vs next year | section | source row | verified? | corrected_value |
 |---|---|---|---|---|---|---|---|---|
-| 2023 | revenue | £7,215,000 | medium | — | profit_and_loss | `Turnover 2 7215S - 172,A55, 181,007 - 181,007` |  |  |
+| 2023 | revenue | £7,215,000 | low | OUTLIER: 0.04x this club's median revenue (186,902,000) | profit_and_loss | `Turnover 2 7215S - 172,A55, 181,007 - 181,007` |  |  |
 | 2023 | wages | £159,026,000 | high | ok | notes | `Staff costs (nate 7) 159,026 162,010` |  |  |
 | 2023 | player_amortisation | £77,621,000 | high | ok | notes | `Amortisation of players’ registrations 77621 68,327` |  |  |
 | 2023 | profit_on_disposal | £0 | low | — | profit_and_loss | `Profit on disposal of tangible . -` |  |  |
@@ -94,7 +94,7 @@ _Context — profit on disposal of **player registrations**. Not one of the four
 
 | year | item | value | conf | cross-check vs next year | section | source row | verified? | corrected_value |
 |---|---|---|---|---|---|---|---|---|
-| 2023 | revenue | £49,633,000 | medium | ok | profit_and_loss | `Revenue 2 $49,633 - $49,633 443,415 - 443,415` |  |  |
+| 2023 | revenue | £49,633,000 | low | ok | profit_and_loss | `Revenue 2 $49,633 - $49,633 443,415 - 443,415` |  |  |
 | 2023 | wages | £251,121,000 | high | ok | notes | `Staff costs S) 251,121 209,180` |  |  |
 | 2023 | player_amortisation | £109,073,000 | medium | ok | notes | `Amortisation of intangible fixed assets 109,073 79,520` |  |  |
 | 2023 | profit_on_disposal | £0 | low | **MISMATCH: 2024 filing restates this as -25,000** | notes | `Profit on disposal of property, plant and equipment (25) -` |  |  |

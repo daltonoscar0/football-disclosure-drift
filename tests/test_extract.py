@@ -274,3 +274,55 @@ def test_a_disclosed_nil_loss_is_zero_not_missing():
 def test_a_bare_loss_row_is_negative():
     sections = {"profit_and_loss": "Loss on disposal of fixed assets 2,985 1,000"}
     assert find_item("profit_on_disposal", sections, "")["value_gbp"] == -2_985_000
+
+
+def test_series_check_flags_an_order_of_magnitude_outlier():
+    """Everton FY2023 revenue read as £7.2m between £187m and £197m."""
+    from src.extract import series_check
+
+    rows = [
+        {"club": "everton", "year": "2023", "item": "revenue",
+         "value_gbp": 7_215_000, "confidence": "medium", "cross_check": ""},
+        {"club": "everton", "year": "2024", "item": "revenue",
+         "value_gbp": 186_902_000, "confidence": "medium", "cross_check": ""},
+        {"club": "everton", "year": "2025", "item": "revenue",
+         "value_gbp": 196_697_000, "confidence": "medium", "cross_check": ""},
+    ]
+    series_check(rows)
+    assert "OUTLIER" in rows[0]["cross_check"]
+    assert rows[0]["confidence"] == "low"
+    assert rows[1]["cross_check"] == ""
+
+
+def test_series_check_catches_what_the_cross_year_check_cannot():
+    """When the same OCR error appears in both filings the comparative agrees with
+    the damaged value, so only the series check can catch it."""
+    from src.extract import series_check
+
+    rows = [
+        {"club": "spurs", "year": "2023", "item": "revenue", "value_gbp": 49_633_000,
+         "confidence": "medium", "cross_check": "agrees with 2023+1 comparative"},
+        {"club": "spurs", "year": "2024", "item": "revenue", "value_gbp": 517_763_000,
+         "confidence": "medium", "cross_check": ""},
+        {"club": "spurs", "year": "2025", "item": "revenue", "value_gbp": 564_881_000,
+         "confidence": "medium", "cross_check": ""},
+    ]
+    series_check(rows)
+    assert "OUTLIER" in rows[0]["cross_check"]
+    assert "agrees" in rows[0]["cross_check"]  # both verdicts retained
+
+
+def test_series_check_leaves_disposals_alone():
+    """Disposals legitimately swing from nil to hundreds of millions."""
+    from src.extract import series_check
+
+    rows = [
+        {"club": "chelsea", "year": "2023", "item": "profit_on_disposal",
+         "value_gbp": 76_524_000, "confidence": "medium", "cross_check": ""},
+        {"club": "chelsea", "year": "2024", "item": "profit_on_disposal",
+         "value_gbp": 198_749_000, "confidence": "medium", "cross_check": ""},
+        {"club": "chelsea", "year": "2025", "item": "profit_on_disposal",
+         "value_gbp": 0, "confidence": "medium", "cross_check": ""},
+    ]
+    series_check(rows)
+    assert all("OUTLIER" not in r["cross_check"] for r in rows)

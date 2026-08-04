@@ -560,6 +560,7 @@ def run() -> int:
             context.append({"club": parsed["club"], "year": parsed["year"], **players})
 
     cross_check(rows)
+    series_check(rows)
     EXTRACTED.mkdir(parents=True, exist_ok=True)
     fields = [
         "club",
@@ -634,6 +635,46 @@ def _needs_derived_total(found: dict) -> bool:
     if found.get("value_gbp") == "":
         return True
     return bool(WAGES_LABEL.match(found.get("source_snippet", "")))
+
+
+# Revenue, wages and amortisation move by tens of percent between years, not by
+# an order of magnitude. Disposals legitimately swing from nil to hundreds of
+# millions, so they are exempt.
+SERIES_ITEMS = ("revenue", "wages", "player_amortisation")
+SERIES_LOW, SERIES_HIGH = 0.25, 4.0
+
+
+def series_check(rows: list[dict]) -> None:
+    """Flag values wildly out of line with the same club's own series, in place.
+
+    The cross-year check only fires when the following year's comparative could be
+    read. Where it could not, an OCR-damaged figure passes silently: Everton's FY2023
+    revenue came out as £7.2m against £187m and £197m either side, because the scan
+    rendered 172,155 as "7215S". An order-of-magnitude departure from a club's own
+    median is not a business event, it is a reading error.
+    """
+    from statistics import median
+
+    for club in sorted({r["club"] for r in rows}):
+        for item in SERIES_ITEMS:
+            series = [
+                r for r in rows
+                if r["club"] == club and r["item"] == item and r["value_gbp"] != ""
+            ]
+            values = [abs(float(r["value_gbp"])) for r in series]
+            if len(values) < 2:
+                continue
+            mid = median(values)
+            if not mid:
+                continue
+            for row in series:
+                ratio = abs(float(row["value_gbp"])) / mid
+                if ratio < SERIES_LOW or ratio > SERIES_HIGH:
+                    row["confidence"] = "low"
+                    note = f"OUTLIER: {ratio:.2f}x this club's median {item} ({mid:,.0f})"
+                    row["cross_check"] = (
+                        f"{row['cross_check']}; {note}" if row["cross_check"] else note
+                    )
 
 
 def _fmt(value) -> str:
