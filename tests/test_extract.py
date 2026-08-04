@@ -1,6 +1,7 @@
 import pytest
 
 from src.extract import (
+    PLAYERS_DISPOSAL,
     detect_unit,
     find_item,
     find_total_column,
@@ -19,7 +20,7 @@ from src.extract import (
         ("82,500", 82500.0),
         ("12.4", 12.4),
         ("(12.4)", -12.4),
-        ("-", None),
+        ("-", 0.0),   # nil column, not an absent one
         ("", None),
     ],
 )
@@ -74,9 +75,17 @@ def test_extracts_four_items_from_the_fixture(parsed_filing):
     # Reported bracketed in the P&L; normalised to a positive magnitude.
     assert amort["value_gbp"] == 118_940_000
 
+    # The tracked item is the non-player disposal (fixed assets), not the routine
+    # player-registrations row that sits directly above it in the fixture's P&L.
     disposal = find_item("profit_on_disposal", sections, doc)
-    assert disposal["value_gbp"] == 76_441_000
+    assert disposal["value_gbp"] == 82_500_000
     assert disposal["source_section"] == "profit_and_loss"
+    assert "fixed assets" in disposal["source_snippet"].lower()
+
+    players = find_item(
+        "profit_on_disposal_players", sections, doc, patterns=PLAYERS_DISPOSAL
+    )
+    assert players["value_gbp"] == 76_441_000
 
 
 def test_missing_item_reports_no_match():
@@ -132,3 +141,27 @@ def test_ocr_mangled_unit_markers_are_recognised():
 def test_real_money_amounts_are_not_read_as_unit_markers():
     multiplier, evidence = detect_unit("a grant of £7,000 was received", "")
     assert evidence.startswith("default")
+
+
+def test_player_disposals_never_leak_into_the_tracked_disposal_item():
+    """The generic fallback must not match the player-registrations row, or every
+    club would report routine player trading as an intra-group asset sale."""
+    sections = {
+        "profit_and_loss": "Profit on disposal of player registrations 51,073 10,732"
+    }
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == ""
+
+
+def test_loss_slash_profit_labels_are_matched():
+    sections = {
+        "profit_and_loss": "(Loss)/profit on disposal of fixed assets (2,985) - (2,985) | 54"
+    }
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == -2_985_000
+
+
+def test_nil_current_year_is_not_replaced_by_the_comparative():
+    """Chelsea 2025: the current year is nil and £198.7m is last year's figure."""
+    sections = {
+        "profit_and_loss": "Profit on disposal of fixed asset investments 16 - - - 198,749"
+    }
+    assert find_item("profit_on_disposal", sections, "")["value_gbp"] == 0

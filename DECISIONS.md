@@ -145,6 +145,41 @@ comma-less integers are dropped when larger figures appear later on the same row
 The first surviving figure is the current year; the second is the comparative,
 which we never take even when it is labelled "restated".
 
+**2026-08-04 — `profit_on_disposal` tracks non-player disposals only. FLAGGED FOR
+REVIEW AT CHECKPOINT A.**
+The brief names the item "profit on disposal of players/assets", which is ambiguous,
+and the two readings produce materially different deliverables. These filings carry
+*two* distinct disposal lines:
+
+- *Profit on disposal of player registrations* — routine, present at every club
+  every year, large (Chelsea: £62.9m FY23, £152.5m FY24, £57.9m FY25).
+- *Profit on disposal of fixed assets / subsidiaries* — the intra-group sales this
+  project exists to test (Chelsea: £76.5m FY23 hotels and car park to Blueco 22
+  Properties Limited, £198.7m FY24 women's team, a £3.0m loss FY25 Kingsmeadow).
+
+Tracking the player line would bury the intra-group signal underneath a much larger
+routine number, and the stated objective explicitly concerns "profit on disposals
+spikes from the intra-group sales". So the tracked item is the non-player line, and
+player-registration disposals are extracted separately and printed in VALIDATION.md
+as a context table rather than as one of the four items. This keeps the deliverable
+at four items / 60 values while leaving both figures visible for checking.
+
+Where a club has no non-player disposal line, the value is blank rather than zero —
+absence of the line is different from a disclosed nil, and for the comparators that
+absence is itself part of the finding.
+
+**2026-08-04 — A standalone dash is a nil column, not an absent one.**
+This was a real bug caught against Chelsea's FY2025 P&L. The row reads:
+
+    Profit on disposal of fixed asset investments 16 - - - 198,749
+
+The current year is nil and £198,749k is the *comparative*. Discarding unparseable
+dash tokens collapsed the column positions and reported last year's £198.7m as this
+year's figure — a wrong number that would have looked entirely plausible in the
+findings note. Dashes now parse to 0.0 and hold their column. The same fix makes
+Arsenal's `- 51,073 51,073 - 10,732 10,732` and Chelsea's
+`76,524 - 76,524 -` resolve correctly, and all three are pinned by tests.
+
 **2026-08-04 — Costs are normalised to positive magnitudes.**
 Wages and player amortisation are printed bracketed (negative) in the P&L and
 unbracketed in the notes. Storing the signed value as printed would make the same

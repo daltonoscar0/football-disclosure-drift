@@ -39,6 +39,15 @@ VALIDATION_MD = EXTRACTED / "VALIDATION.md"
 
 ITEMS = ("revenue", "wages", "player_amortisation", "profit_on_disposal")
 
+# Rows are labelled "Profit on disposal of ...", "Gain on disposal of ...", and
+# — where the line can swing either way — "(Loss)/profit on disposal of ..." or
+# "Profit/(loss) on disposal of ...". All four forms occur in these filings.
+_PROFIT_ON_DISPOSAL = (
+    r"^\s*(?:\(loss\)\s*/\s*)?(?:net\s+)?(?:profit|gain|surplus)"
+    r"(?:\s*/\s*\(loss\))?\s+on\s+(?:the\s+)?disposals?"
+)
+_PROFIT_PREFIX = _PROFIT_ON_DISPOSAL + r"\s+of\s+"
+
 # Tier 1 patterns are unambiguous; tier 2 are acceptable fallbacks; a tier-2 hit
 # drops the confidence one notch. Patterns match at the start of a row's label.
 PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
@@ -72,36 +81,53 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         (2, re.compile(r"^\s*amortisation\s+of\s+intangible\s+(?:fixed\s+)?assets\b", re.I)),
         (2, re.compile(r"^\s*amortisation\b(?!\s+(?:policy|method|is\s+))", re.I)),
     ],
+    # Non-player disposals only — see PLAYERS_DISPOSAL below for why.
     "profit_on_disposal": [
         (
             1,
             re.compile(
-                r"^\s*(?:net\s+)?(?:profit|gain)\s+on\s+(?:the\s+)?disposals?\s+of\s+"
-                r"(?:players?[’'`]?s?\s+registrations?|player\s+registrations?)",
+                _PROFIT_PREFIX + r"(?:intangible|tangible|fixed)\s+assets?"
+                r"(?:\s+investments?)?\b",
                 re.I,
             ),
         ),
         (
             1,
             re.compile(
-                r"^\s*(?:net\s+)?(?:profit|gain)\s+on\s+(?:the\s+)?disposals?\s+of\s+"
-                r"(?:intangible|tangible|fixed)\s+assets\b",
-                re.I,
-            ),
-        ),
-        (
-            1,
-            re.compile(
-                r"^\s*(?:net\s+)?(?:profit|gain)\s+on\s+(?:the\s+)?disposals?\s+of\s+"
-                r"(?:a\s+)?(?:subsidiar(?:y|ies)|business(?:es)?|"
+                _PROFIT_PREFIX + r"(?:a\s+)?(?:subsidiar(?:y|ies)|business(?:es)?|"
+                r"investments?|propert(?:y|ies)|"
                 r"fellow\s+group\s+(?:compan(?:y|ies)|undertakings?))",
                 re.I,
             ),
         ),
-        (2, re.compile(r"^\s*(?:net\s+)?(?:profit|gain)\s+on\s+(?:the\s+)?disposals?\b", re.I)),
-        (2, re.compile(r"^\s*profits?\s+(?:arising\s+)?on\s+player\s+(?:sales|trading)\b", re.I)),
+        # Generic fallback, but never the player-registrations row.
+        (
+            2,
+            re.compile(
+                _PROFIT_ON_DISPOSAL
+                + r"(?!\s+of\s+(?:players?[’'`]?s?\s+registrations?|player\s+registrations?))",
+                re.I,
+            ),
+        ),
     ],
 }
+
+# Profit on disposal of *player registrations* is a routine, every-club line and is
+# a different economic event from selling a hotel to a fellow group company. Tracking
+# it as "profit_on_disposal" would bury the intra-group signal this project exists to
+# test, so it is extracted separately and reported in VALIDATION.md as context rather
+# than as one of the four line items.
+PLAYERS_DISPOSAL = [
+    (
+        1,
+        re.compile(
+            _PROFIT_PREFIX
+            + r"(?:players?[’'`]?s?\s+registrations?|player\s+registrations?)",
+            re.I,
+        ),
+    ),
+    (2, re.compile(r"^\s*profits?\s+(?:arising\s+)?on\s+player\s+(?:sales|trading)\b", re.I)),
+]
 
 # Where to look, best section first.
 SEARCH_ORDER: dict[str, tuple[str, ...]] = {
@@ -127,7 +153,16 @@ UNIT_PATTERNS = [
     ),
 ]
 
-NUMBER = re.compile(r"\(?-?\d{1,3}(?:,\d{3})+(?:\.\d+)?\)?|\(?-?\d+(?:\.\d+)?\)?")
+# A standalone dash is a nil column, not an absent one. Dropping it would collapse
+# the column positions: "Profit on disposal of fixed asset investments 16 - - - 198,749"
+# has a nil current year and £198,749k as the *comparative*, so ignoring the dashes
+# would report last year's figure as this year's.
+NIL_TOKENS = frozenset({"-", "–", "—"})
+NUMBER = re.compile(
+    r"\(?-?\d{1,3}(?:,\d{3})+(?:\.\d+)?\)?"
+    r"|\(?-?\d+(?:\.\d+)?\)?"
+    r"|(?<![\w-])[-–—](?![\w-])"
+)
 
 
 def detect_unit(section_text: str, doc_text: str) -> tuple[int, str]:
@@ -147,6 +182,8 @@ def detect_unit(section_text: str, doc_text: str) -> tuple[int, str]:
 
 def parse_number(raw: str) -> float | None:
     text = raw.strip()
+    if text in NIL_TOKENS:
+        return 0.0
     negative = text.startswith("(") and text.endswith(")")
     text = text.strip("()").replace(",", "").replace("−", "-").replace("–", "-")
     if text.startswith("-"):
@@ -197,7 +234,11 @@ def clean_figures(
     figures: list[tuple[float, str]], multiplier: int
 ) -> list[tuple[float, str]]:
     """Drop note references, leaving only genuine figure columns."""
-    substantial = [f for f in figures if "," in f[1] or "." in f[1] or abs(f[0]) >= 100]
+    substantial = [
+        f
+        for f in figures
+        if f[1].strip() in NIL_TOKENS or "," in f[1] or "." in f[1] or abs(f[0]) >= 100
+    ]
     # A leading small comma-less integer alongside larger figures is a note ref.
     if substantial and len(substantial) < len(figures):
         return substantial
@@ -225,17 +266,25 @@ def pick_current_year(
     return figures[0]
 
 
-def find_item(item: str, sections: dict[str, str], doc_text: str) -> dict:
+def find_item(
+    item: str,
+    sections: dict[str, str],
+    doc_text: str,
+    patterns: list[tuple[int, re.Pattern]] | None = None,
+    search_order: tuple[str, ...] | None = None,
+) -> dict:
     """Best candidate row for one line item."""
+    patterns = patterns if patterns is not None else PATTERNS[item]
+    search_order = search_order or SEARCH_ORDER.get(item, ("profit_and_loss", "notes"))
     best: dict | None = None
-    for section_name in SEARCH_ORDER[item]:
+    for section_name in search_order:
         text = sections.get(section_name, "")
         if not text.strip():
             continue
         multiplier, unit_evidence = detect_unit(text, doc_text)
         lines = text.splitlines()
         for idx, line in enumerate(lines):
-            for tier, pattern in PATTERNS[item]:
+            for tier, pattern in patterns:
                 match = pattern.match(line)
                 if not match:
                     continue
@@ -324,6 +373,7 @@ def run() -> int:
         return 1
 
     rows: list[dict] = []
+    context: list[dict] = []
     for club_dir in sorted(p for p in PARSED.iterdir() if p.is_dir()):
         for path in sorted(club_dir.glob("*.json")):
             parsed = jload(path)
@@ -332,6 +382,11 @@ def run() -> int:
             for item in ITEMS:
                 found = find_item(item, sections, doc_text)
                 rows.append({"club": parsed["club"], "year": parsed["year"], **found})
+            # Context only, not one of the four tracked items.
+            players = find_item(
+                "profit_on_disposal_players", sections, doc_text, patterns=PLAYERS_DISPOSAL
+            )
+            context.append({"club": parsed["club"], "year": parsed["year"], **players})
 
     EXTRACTED.mkdir(parents=True, exist_ok=True)
     fields = [
@@ -350,7 +405,7 @@ def run() -> int:
         for row in rows:
             writer.writerow(row)
 
-    write_validation(rows)
+    write_validation(rows, context)
 
     found = sum(1 for r in rows if r["value_gbp"] != "")
     by_conf = {c: sum(1 for r in rows if r["confidence"] == c) for c in
@@ -366,7 +421,7 @@ def _fmt(value) -> str:
     return f"£{value:,.0f}"
 
 
-def write_validation(rows: list[dict]) -> None:
+def write_validation(rows: list[dict], context: list[dict] | None = None) -> None:
     lines = [
         "# Line-item validation",
         "",
@@ -402,6 +457,20 @@ def write_validation(rows: list[dict]) -> None:
                     f"| {row['source_section'] or '—'} | `{snippet}` |  |  |"
                 )
         lines.append("")
+        club_context = [c for c in (context or []) if c["club"] == club]
+        if club_context:
+            lines.append(
+                "_Context — profit on disposal of **player registrations**. Not one of "
+                "the four tracked items (see DECISIONS.md), shown so the tracked "
+                "non-player disposal figure above can be checked against it._"
+            )
+            lines.append("")
+            lines.append("| year | player disposal profit | source row |")
+            lines.append("|---|---|---|")
+            for c in sorted(club_context, key=lambda c: c["year"]):
+                snippet = c["source_snippet"].replace("|", "\\|") or "—"
+                lines.append(f"| {c['year']} | {_fmt(c['value_gbp'])} | `{snippet}` |")
+            lines.append("")
     VALIDATION_MD.write_text("\n".join(lines) + "\n")
 
 
