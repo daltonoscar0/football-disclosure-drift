@@ -10,7 +10,7 @@ extraction of four financial line items per filing.
 
 Chelsea ranks **first of five** on mean year-over-year disclosure drift (cosine
 novelty 0.290 vs a 0.206 floor), and is the only club in the sample booking material
-intra-group asset disposals — £76.5m of hotels and car park sold to a fellow
+intra-group asset disposals, £76.5m of hotels and car park sold to a fellow
 subsidiary in FY2023, and £198.7m for the women's team in FY2024.
 
 Within Chelsea, though, the year-by-year alignment does not hold. Cosine novelty is
@@ -35,7 +35,7 @@ the text this project measures.
 ### Getting an API key
 
 1. Register at <https://developer.company-information.service.gov.uk/> and sign in.
-2. **Manage applications → Add an application**, environment **Live**.
+2. **Manage applications -> Add an application**, environment **Live**.
 3. Inside the application, **Create new key** with key type **REST**. The streaming
    and document-only key types will not work for the filing-history calls.
 4. Export the key in your shell. It is read from the environment only and is never
@@ -65,7 +65,7 @@ make test          # 82 tests
 ```
 
 `data/raw/` and `data/ocr/` are cached and gitignored. Once populated the whole
-pipeline runs offline in about 3 seconds and needs no API key — `ingest` detects a
+pipeline runs offline in about 3 seconds and needs no API key, `ingest` detects a
 complete cache and skips.
 
 The expensive stage is `ocr`: every filing Companies House serves for these clubs is

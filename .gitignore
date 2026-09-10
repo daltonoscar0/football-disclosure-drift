@@ -5,3 +5,11 @@ __pycache__/
 *.pyc
 .DS_Store
 .pytest_cache/
+CLAUDE.md
+AGENTS.md
+.claude/
+.agentnotes/
+.cursor/
+.mcp.json
+tasks/lessons.md
+tasks/todo.md

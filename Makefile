@@ -8,7 +8,7 @@ ingest:
 	$(PY) -m src.ingest
 
 # Every filing is an image-only scan, so text comes from OCR. Expensive but cached
-# per filing under data/ocr/ — a second run is a no-op.
+# per filing under data/ocr/, a second run is a no-op.
 ocr:
 	$(PY) -m src.ocr
 

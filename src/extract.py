@@ -40,7 +40,7 @@ VALIDATION_MD = EXTRACTED / "VALIDATION.md"
 ITEMS = ("revenue", "wages", "player_amortisation", "profit_on_disposal")
 
 # Rows are labelled "Profit on disposal of ...", "Gain on disposal of ...", and
-# — where the line can swing either way — "(Loss)/profit on disposal of ..." or
+#, where the line can swing either way, "(Loss)/profit on disposal of ..." or
 # "Profit/(loss) on disposal of ...". All four forms occur in these filings.
 # A "Loss on disposal of ..." row discloses the same line item with the opposite
 # sign; treating it as no-match reported a disclosed nil as missing data.
@@ -69,7 +69,7 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
     ],
     # Basis: total staff costs, not "wages and salaries". Tottenham discloses no
     # wages-and-salaries line at all, so staff costs is the only basis available for
-    # every club in every year — and a wages column that is not like-for-like across
+    # every club in every year, and a wages column that is not like-for-like across
     # clubs is worse than one that is consistently broader. Includes social security
     # and pension costs; runs ~12-15% above pure wages.
     "wages": [
@@ -96,12 +96,12 @@ PATTERNS: dict[str, list[tuple[int, re.Pattern]]] = {
         ),
         (2, re.compile(r"^\s*amortisation\s+of\s+intangible\s+(?:fixed\s+)?assets\b", re.I)),
         # "Amortisation charged in the year" inside the intangibles note. Deliberately
-        # NOT a bare "^amortisation" — that matched the note's own heading
+        # NOT a bare "^amortisation", that matched the note's own heading
         # ("Amortisation and impairment") and read the movement table's "At 1 July
         # 2023" beneath it as a £2,023,000 figure.
         (2, re.compile(r"^\s*amortisation\s+(?:charged?|expense)\b", re.I)),
     ],
-    # Non-player disposals only — see PLAYERS_DISPOSAL below for why.
+    # Non-player disposals only, see PLAYERS_DISPOSAL below for why.
     "profit_on_disposal": [
         (
             1,
@@ -397,8 +397,8 @@ def derive_staff_costs(sections: dict[str, str], doc_text: str) -> dict | None:
                     figures.append(picked[0])
                 if len(figures) > MAX_STAFF_COST_COMPONENTS + 2:
                     break
-            # The run of components need not begin at the label — in a split block
-            # other figures can precede it — so try each starting point.
+            # The run of components need not begin at the label, in a split block
+            # other figures can precede it, so try each starting point.
             for first in range(max(1, len(figures) - 2)):
                 for k in range(first + 2, len(figures)):
                     total = figures[k]
