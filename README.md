@@ -1,5 +1,7 @@
 # Ledger
 
+[![tests](https://github.com/daltonoscar0/football-disclosure-drift/actions/workflows/tests.yml/badge.svg)](https://github.com/daltonoscar0/football-disclosure-drift/actions/workflows/tests.yml)
+
 Year-over-year disclosure-language drift in English football club annual accounts.
 
 A Lazy Prices-style novelty score computed over the strategic report sections of
@@ -18,6 +20,19 @@ Within Chelsea, though, the year-by-year alignment does not hold. Cosine novelty
 surprisal points the other way. With two year-pairs per club, no timing claim
 survives. Full write-up, including why the disagreement is not resolved in the
 hypothesis's favour, is in `FINDINGS.md`.
+
+| year | profit on disposals (£m) | cosine novelty vs prior year | surprisal (bits) |
+|---|---:|---:|---:|
+| 2023 | 76.5 | — (no prior year) | — |
+| 2024 | 198.7 | 0.280 | 5.56 |
+| 2025 | 0.0 | 0.301 | 3.57 |
+
+Chelsea, disposals against disclosure drift. The two novelty measures disagree
+about which year is the outlier: cosine novelty peaks in 2025, when disposals were
+nil, while surprisal peaks in 2024, the year of the £198.7m sale. The measure that
+better matches the disposals is the one with the weaker methodological standing, and
+with two year-pairs neither ordering is evidence. Source:
+`data/scores/report_tables.md`.
 
 ## Setup
 
@@ -81,3 +96,7 @@ median. All 60 values have been validated: `data/extracted/line_items.validated.
 records the outcome for each, including the three corrected figures and the evidence
 for each correction. `make report` prefers that file over raw extractor output and
 warns if it is ever asked to build tables from unvalidated numbers.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
